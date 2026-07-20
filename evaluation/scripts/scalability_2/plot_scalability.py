@@ -20,6 +20,8 @@ plt.rcParams['axes.labelsize'] = LABEL_SIZE
 plt.rcParams['xtick.labelsize'] = TICK_SIZE
 plt.rcParams['ytick.labelsize'] = TICK_SIZE
 plt.rcParams['legend.fontsize'] = LEGEND_SIZE
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
 
 # ===== COLOR SETUP =====
 palette = sns.color_palette("pastel")
@@ -256,8 +258,7 @@ ax.text(0.1, 1.08, 'Higher is better ↑', transform=ax.transAxes,
         ha='center', va='top')
 
 # ===== SAVE AND DISPLAY =====
-PLOTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "plots", "scalability_2")
 plt.tight_layout()
-plt.savefig(os.path.join(PLOTS, "scalability_analysis.png"), dpi=300, bbox_inches='tight')
-plt.savefig(os.path.join(PLOTS, "scalability_analysis.pdf"), bbox_inches='tight')
+plt.savefig("../plots/scalability_2/scalability_analysis.png", dpi=300, bbox_inches='tight')
+plt.savefig("../plots/scalability_2/scalability_analysis.pdf", bbox_inches='tight')
 print("Figures generated at ../plots/scalability_2/scalability_analysis.png and ../plots/scalability_2/scalability_analysis.pdf")

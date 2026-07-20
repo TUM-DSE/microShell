@@ -22,6 +22,8 @@ plt.rcParams['axes.labelsize'] = LABEL_SIZE
 plt.rcParams['xtick.labelsize'] = TICK_SIZE
 plt.rcParams['ytick.labelsize'] = TICK_SIZE
 plt.rcParams['legend.fontsize'] = LEGEND_SIZE
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
 
 # ===== COLOR SETUP =====
 palette = sns.color_palette("pastel")

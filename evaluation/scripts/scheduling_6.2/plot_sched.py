@@ -19,6 +19,8 @@ plt.rcParams['axes.labelsize'] = LABEL_SIZE
 plt.rcParams['xtick.labelsize'] = TICK_SIZE
 plt.rcParams['ytick.labelsize'] = TICK_SIZE
 plt.rcParams['legend.fontsize'] = LEGEND_SIZE
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
 
 # ===== COLOR SETUP =====
 palette = sns.color_palette("pastel")
@@ -100,7 +102,7 @@ y_limits = {
 
 # ===== PLOT SETUP =====
 width = 16  
-height = 4
+height = 3
 fig, axs = plt.subplots(nrows=1, ncols=5, sharex=True, figsize=(width, height), 
                         constrained_layout=True)
 
@@ -243,6 +245,6 @@ fig.text(0.78, -0.065, "Lower is better ↓",
          ha='center', va='bottom')
 
 # ===== SAVE AND DISPLAY =====
-plt.savefig("../plots/scheduling_6.2/sched.png", dpi=300, bbox_inches='tight')
-plt.savefig("../plots/scheduling_6.2/sched.pdf", bbox_inches='tight')
+plt.savefig("../plots/scheduling_6.2/sched.png", dpi=300, bbox_inches='tight', pad_inches=0.01)
+plt.savefig("../plots/scheduling_6.2/sched.pdf", bbox_inches='tight', pad_inches=0.01)
 print("Figures generated at ../plots/scheduling_6.2/sched.png and ../plots/scheduling_6.2/sched.pdf")
