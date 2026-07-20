@@ -106,8 +106,8 @@ for ax, (ymin, ymax) in zip(axs, y_limits):
 
 # Set specific y-ticks to avoid overlap
 ax1.set_yticks([56000, 60000])
-ax2.set_yticks([250, 300])
-ax3.set_yticks([0, 10, 20])
+ax2.set_yticks([250, 350])
+ax3.set_yticks([0, 20, 40])
 
 # Configure broken axis appearance
 # Hide spines between subplots
