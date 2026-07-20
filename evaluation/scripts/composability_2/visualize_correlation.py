@@ -2,6 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
+
 def plot_half_correlation_matrix(csv_path, csv_path_2, output_path='.'):
     # Read and process data
     df = pd.read_csv(csv_path, index_col=0)

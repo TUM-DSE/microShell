@@ -6,11 +6,11 @@ import seaborn as sns
 from matplotlib.patches import Patch
 
 # ===== FONT AND STYLE SETTINGS =====
-FONT_SIZE = 9
-LABEL_SIZE = 9
-TICK_SIZE = 9
-LEGEND_SIZE = 8
-ANNOTATION_SIZE = 8
+FONT_SIZE = 8
+LABEL_SIZE = 7
+TICK_SIZE = 7
+LEGEND_SIZE = 6
+ANNOTATION_SIZE = 7
 VALUE_SIZE = 6
 
 plt.rcParams['mathtext.fontset'] = 'cm'
@@ -19,6 +19,8 @@ plt.rcParams['axes.labelsize'] = LABEL_SIZE
 plt.rcParams['xtick.labelsize'] = TICK_SIZE
 plt.rcParams['ytick.labelsize'] = TICK_SIZE
 plt.rcParams['legend.fontsize'] = LEGEND_SIZE
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
 
 # ===== COLOR SETUP =====
 palette = sns.color_palette("pastel")
@@ -57,7 +59,7 @@ y_limits = [
 ]
 
 # ===== PLOT SETUP =====
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True, figsize=(3.7, 2.2))
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True, figsize=(3.7, 2))
 axs = [ax1, ax2, ax3]
 
 # Bar settings
@@ -180,7 +182,7 @@ plt.subplots_adjust(wspace=0, hspace=0.05)
 plt.margins(x=0.0, tight=True)
 
 # Save figure
-plt.savefig("../plots/deployment_6.3/reconfig_overhead.png", dpi=300, bbox_inches='tight')
-plt.savefig("../plots/deployment_6.3/reconfig_overhead.pdf", bbox_inches='tight')
+plt.savefig("../plots/deployment_6.3/reconfig_overhead.png", dpi=300, bbox_inches='tight', pad_inches=0.01)
+plt.savefig("../plots/deployment_6.3/reconfig_overhead.pdf", bbox_inches='tight', pad_inches=0.01)
 print("Figures generated at ../plots/deployment_6.3/reconfig_overhead.png and ../plots/deployment_6.3/reconfig_overhead.pdf")
 

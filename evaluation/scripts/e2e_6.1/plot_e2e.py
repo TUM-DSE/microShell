@@ -6,8 +6,8 @@ import seaborn as sns
 import numpy as np
 
 # ===== FONT AND STYLE SETTINGS =====
-FONT_SIZE = 14
-LABEL_SIZE = 14
+FONT_SIZE = 10
+LABEL_SIZE = 12
 TICK_SIZE = 12
 LEGEND_SIZE = 12
 ANNOTATION_SIZE = 12
@@ -19,6 +19,8 @@ plt.rcParams['axes.labelsize'] = LABEL_SIZE
 plt.rcParams['xtick.labelsize'] = TICK_SIZE
 plt.rcParams['ytick.labelsize'] = TICK_SIZE
 plt.rcParams['legend.fontsize'] = LEGEND_SIZE
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
 
 # ===== COLOR SETUP =====
 palette = sns.color_palette("pastel")
@@ -106,7 +108,7 @@ def load_e2e():
 data, error_data = load_e2e()
 
 # ===== PLOT SETUP =====
-fig, ax = plt.subplots(figsize=(16, 4))
+fig, ax = plt.subplots(figsize=(16, 3))
 
 # Bar settings
 bar_width = 0.1
@@ -247,7 +249,7 @@ fig.suptitle('Higher is better ↑', fontsize=ANNOTATION_SIZE, color='navy',
 # ===== SAVE AND DISPLAY =====
 plt.tight_layout()
 plt.subplots_adjust(bottom=0.1)
-plt.savefig("../plots/e2e_6.1/e2e.png", dpi=300, bbox_inches='tight')
-plt.savefig("../plots/e2e_6.1/e2e.pdf", bbox_inches='tight')
+plt.savefig("../plots/e2e_6.1/e2e.png", dpi=300, bbox_inches='tight', pad_inches=0.01)
+plt.savefig("../plots/e2e_6.1/e2e.pdf", bbox_inches='tight', pad_inches=0.01)
 print("Figures generated at ../plots/e2e_6.1/e2e.png and ../plots/e2e_6.1/e2e.pdf")
 # plt.show()

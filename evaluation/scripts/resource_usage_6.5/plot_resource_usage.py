@@ -18,6 +18,8 @@ plt.rcParams['axes.labelsize'] = LABEL_SIZE
 plt.rcParams['xtick.labelsize'] = TICK_SIZE
 plt.rcParams['ytick.labelsize'] = TICK_SIZE
 plt.rcParams['legend.fontsize'] = LEGEND_SIZE
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
 
 # ===== COLOR SETUP (NOW FOR SHARING LEVELS) =====
 palette = sns.color_palette("pastel")
@@ -213,6 +215,6 @@ legend = ax.legend(handles=all_handles, loc='center',
 # ===== SAVE AND DISPLAY =====
 plt.tight_layout()
 plt.margins(x=0.02, tight=True)
-plt.savefig("../../plots/resource_usage_6.5/resource_usage.pdf", bbox_inches='tight')
-plt.savefig("../../plots/resource_usage_6.5/resource_usage.png", bbox_inches='tight')
+plt.savefig("../plots/resource_usage_6.5/resource_usage.pdf", bbox_inches='tight')
+plt.savefig("../plots/resource_usage_6.5/resource_usage.png", bbox_inches='tight')
 # plt.show()
