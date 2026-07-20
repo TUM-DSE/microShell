@@ -1,0 +1,7 @@
+Number of tasks,Latency[ms],Policy
+8,756.4404,Coyote
+12,1002.3422,Coyote
+16,1512.814,Coyote
+8,564.978,uShell
+12,619.3296,uShell
+16,959.3496,uShell

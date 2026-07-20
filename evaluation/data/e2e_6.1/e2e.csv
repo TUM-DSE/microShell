@@ -1,0 +1,190 @@
+app,system,size_bytes,throughput_MBps,latency_ns,n_reps,stddev_MBps,source,timestamp
+audio_processing,coyote,8192,97.9,0,5,10.2,paper,paper
+audio_processing,ushell_mono,8192,98.5,0,5,10.0,paper,paper
+audio_processing,ushell,8192,95.0,0,5,10.0,paper,paper
+audio_processing,coyote,262144,224.9,0,5,3.4,paper,paper
+audio_processing,ushell_mono,262144,226.0,0,5,2.0,paper,paper
+audio_processing,ushell,262144,219.0,0,5,2.0,paper,paper
+audio_processing,coyote,1048576,225.8,0,5,0.5,paper,paper
+audio_processing,ushell_mono,1048576,224.8,0,5,0.5,paper,paper
+audio_processing,ushell,1048576,218.8,0,5,0.5,paper,paper
+digital_signature,coyote,8192,88.4,0,5,1.2,paper,paper
+digital_signature,ushell_mono,8192,87.3,0,5,1.2,paper,paper
+digital_signature,ushell,8192,84.8,0,5,1.2,paper,paper
+digital_signature,coyote,262144,233.1,0,5,0.2,paper,paper
+digital_signature,ushell_mono,262144,233.9,0,5,0.2,paper,paper
+digital_signature,ushell,262144,229.4,0,5,0.2,paper,paper
+digital_signature,coyote,1048576,239.5,0,5,1.2,paper,paper
+digital_signature,ushell_mono,1048576,238.3,0,5,0.2,paper,paper
+digital_signature,ushell,1048576,232.3,0,5,0.2,paper,paper
+secure_storage,coyote,8192,147.3,0,5,0.5,paper,paper
+secure_storage,ushell_mono,8192,146.8,0,5,0.2,paper,paper
+secure_storage,ushell,8192,141.0,0,5,0.2,paper,paper
+secure_storage,coyote,262144,159.6,0,5,0.0,paper,paper
+secure_storage,ushell_mono,262144,158.5,0,5,0.6,paper,paper
+secure_storage,ushell,262144,150.5,0,5,0.6,paper,paper
+secure_storage,coyote,1048576,159.8,0,5,0.1,paper,paper
+secure_storage,ushell_mono,1048576,160.7,0,5,0.1,paper,paper
+secure_storage,ushell,1048576,155.7,0,5,0.1,paper,paper
+signed_compression,coyote,8192,73.5,0,5,0.1,paper,paper
+signed_compression,ushell_mono,8192,74.5,0,5,0.1,paper,paper
+signed_compression,ushell,8192,72.3,0,5,0.1,paper,paper
+signed_compression,coyote,262144,150.1,0,5,0.5,paper,paper
+signed_compression,ushell_mono,262144,149.2,0,5,0.4,paper,paper
+signed_compression,ushell,262144,143.7,0,5,0.4,paper,paper
+signed_compression,coyote,1048576,154.4,0,5,0.0,paper,paper
+signed_compression,ushell_mono,1048576,153.6,0,5,0.0,paper,paper
+signed_compression,ushell,1048576,150.6,0,5,0.0,paper,paper
+speech_recognition,coyote,8192,82.0,0,5,0.5,paper,paper
+speech_recognition,ushell_mono,8192,81.2,0,5,0.5,paper,paper
+speech_recognition,ushell,8192,77.4,0,5,0.5,paper,paper
+speech_recognition,coyote,262144,69.9,0,5,0.0,paper,paper
+speech_recognition,ushell_mono,262144,70.6,0,5,0.0,paper,paper
+speech_recognition,ushell,262144,67.8,0,5,0.0,paper,paper
+speech_recognition,coyote,1048576,69.6,0,5,0.0,paper,paper
+speech_recognition,ushell_mono,1048576,70.2,0,5,0.0,paper,paper
+speech_recognition,ushell,1048576,67.4,0,5,0.0,paper,paper
+secure_storage,ushell_mono,8192,00268.69,30489.00,1,0,measured,2026-05-24 10:15:09
+secure_storage,ushell_mono,8192,00529.20,15480.00,1,0,measured,2026-05-24 11:46:43
+secure_storage,ushell,8192,00197.68,41440.00,1,0,measured,2026-05-24 11:47:19
+audio_processing,coyote,8192,2007.84,4080.00,1,0,measured,2026-05-24 12:41:10
+digital_signature,coyote,8192,01927.53,4250.00,1,0,measured,2026-05-24 12:42:26
+audio_processing,coyote,8192,1108.53,7390.00,1,0,measured,2026-06-01 10:53:22
+digital_signature,coyote,8192,03022.88,2710.00,1,0,measured,2026-06-01 10:54:35
+secure_storage,coyote,8192,00252.76,32410.00,1,0,measured,2026-06-01 10:55:47
+secure_storage,ushell_mono,8192,00614.55,13330.00,1,0,measured,2026-06-01 10:56:10
+secure_storage,ushell,8192,00794.57,10310.00,1,0,measured,2026-06-01 10:56:32
+signed_compression,coyote,8192,02048.00,4000.00,1,0,measured,2026-06-01 10:56:56
+speech_recognition,coyote,8192,2257.37,3629.00,1,0,measured,2026-06-01 10:58:08
+audio_processing,coyote,8192,3045.35,2690.00,1,0,measured,2026-06-01 11:05:27
+audio_processing,coyote,8192,1870.32,4380.00,1,0,measured,2026-06-01 11:33:31
+audio_processing,ushell_mono,8192,49.14,20840.00,1,0,measured,2026-06-01 11:33:59
+audio_processing,ushell,8192,52.09,19660.00,1,0,measured,2026-06-01 11:34:35
+digital_signature,coyote,8192,01699.59,4820.00,1,0,measured,2026-06-01 11:35:09
+digital_signature,ushell_mono,8192,00667.10,12280.00,1,0,measured,2026-06-01 11:35:38
+digital_signature,ushell,8192,00247.27,33130.00,1,0,measured,2026-06-01 11:36:25
+secure_storage,coyote,8192,00133.97,61149.00,1,0,measured,2026-06-01 11:37:01
+secure_storage,ushell_mono,8192,00161.93,50590.00,1,0,measured,2026-06-01 11:37:43
+secure_storage,ushell,8192,00216.32,37870.00,1,0,measured,2026-06-01 11:38:25
+signed_compression,coyote,8192,02446.10,3349.00,1,0,measured,2026-06-01 11:38:54
+signed_compression,ushell_mono,8192,00498.30,16440.00,1,0,measured,2026-06-01 11:39:36
+signed_compression,ushell,8192,00577.31,14190.00,1,0,measured,2026-06-01 11:40:24
+speech_recognition,coyote,8192,2294.04,3571.00,1,0,measured,2026-06-01 11:41:00
+speech_recognition,ushell_mono,8192,219.74,37280.00,1,0,measured,2026-06-01 11:41:42
+speech_recognition,ushell,8192,204.44,40071.00,1,0,measured,2026-06-01 11:42:30
+audio_processing,coyote,8192,3079.70,2660.00,1,0,measured,2026-06-01 11:55:47
+audio_processing,coyote,262144,1954.11,134150.00,1,0,measured,2026-06-01 11:57:52
+audio_processing,coyote,8192,2042.89,4010.00,1,0,measured,2026-06-01 16:44:02
+audio_processing,coyote,262144,10686.67,24530.00,1,0,measured,2026-06-01 16:44:02
+audio_processing,coyote,8192,1973.98,4150.00,1,0,measured,2026-06-01 17:01:35
+audio_processing,coyote,262144,39539.06,6630.00,1,0,measured,2026-06-01 17:01:35
+audio_processing,ushell_mono,8192,53.22,19240.00,1,0,measured,2026-06-01 17:08:28
+audio_processing,ushell_mono,1048576,61.18,2142241.00,1,0,measured,2026-06-01 17:08:45
+audio_processing,ushell,8192,51.95,19710.00,1,0,measured,2026-06-01 17:10:30
+audio_processing,ushell,1048576,60.77,2156821.00,1,0,measured,2026-06-01 17:10:47
+digital_signature,coyote,8192,01865.63,4391.00,1,0,measured,2026-06-01 17:12:32
+digital_signature,coyote,262144,92012.64,2849.00,1,0,measured,2026-06-01 17:12:33
+digital_signature,coyote,1048576,222155.93,4720.00,1,0,measured,2026-06-01 17:12:33
+digital_signature,ushell_mono,8192,00589.73,13891.00,1,0,measured,2026-06-01 17:14:10
+digital_signature,ushell,8192,00356.33,22990.00,1,0,measured,2026-06-01 17:16:11
+secure_storage,coyote,8192,00134.85,60750.00,1,0,measured,2026-06-01 17:18:12
+secure_storage,coyote,262144,04332.96,60500.00,1,0,measured,2026-06-01 17:18:13
+secure_storage,ushell_mono,8192,00668.73,12250.00,1,0,measured,2026-06-01 17:25:04
+secure_storage,ushell_mono,262144,00530.99,493689.00,1,0,measured,2026-06-01 17:25:04
+secure_storage,ushell_mono,1048576,00481.75,2176613.00,1,0,measured,2026-06-01 17:25:04
+secure_storage,ushell,8192,00686.67,11930.00,1,0,measured,2026-06-01 17:26:42
+secure_storage,ushell,262144,00516.43,507608.00,1,0,measured,2026-06-01 17:26:42
+secure_storage,ushell,1048576,00521.14,2012073.00,1,0,measured,2026-06-01 17:26:42
+signed_compression,coyote,8192,01625.40,5040.00,1,0,measured,2026-06-01 17:28:19
+signed_compression,coyote,262144,74282.80,3529.00,1,0,measured,2026-06-01 17:28:20
+signed_compression,coyote,1048576,197471.94,5310.00,1,0,measured,2026-06-01 17:28:20
+signed_compression,ushell_mono,8192,00615.02,13320.00,1,0,measured,2026-06-01 17:29:57
+signed_compression,ushell,8192,00694.24,11800.00,1,0,measured,2026-06-01 17:37:05
+speech_recognition,coyote,8192,1534.08,5340.00,1,0,measured,2026-06-01 17:44:12
+speech_recognition,coyote,262144,62252.20,4211.00,1,0,measured,2026-06-01 17:44:12
+audio_processing,coyote,8192,1936.64,4230.00,1,0,measured,2026-06-01 17:55:16
+audio_processing,coyote,262144,39307.84,6669.00,1,0,measured,2026-06-01 17:55:17
+audio_processing,ushell_mono,1048576,62.26,2105253.00,1,0,measured,2026-06-01 18:02:27
+audio_processing,ushell,8192,51.66,19820.00,1,0,measured,2026-06-01 18:04:13
+audio_processing,ushell,1048576,62.93,2082962.00,1,0,measured,2026-06-01 18:04:30
+digital_signature,coyote,8192,02042.38,4011.00,1,0,measured,2026-06-01 18:06:15
+digital_signature,coyote,262144,90083.85,2910.00,1,0,measured,2026-06-01 18:06:15
+digital_signature,coyote,1048576,419430.40,2500.00,1,0,measured,2026-06-01 18:06:16
+digital_signature,ushell_mono,8192,00586.82,13960.00,1,0,measured,2026-06-01 18:07:52
+digital_signature,ushell,8192,00594.10,13789.00,1,0,measured,2026-06-01 18:09:54
+secure_storage,coyote,8192,00137.87,59420.00,1,0,measured,2026-06-01 18:11:55
+secure_storage,coyote,262144,04339.41,60410.00,1,0,measured,2026-06-01 18:11:56
+secure_storage,ushell_mono,8192,00655.88,12490.00,1,0,measured,2026-06-01 18:18:48
+secure_storage,ushell_mono,262144,00492.12,532688.00,1,0,measured,2026-06-01 18:18:48
+secure_storage,ushell_mono,1048576,00469.60,2232922.00,1,0,measured,2026-06-01 18:18:48
+secure_storage,ushell,8192,00654.84,12510.00,1,0,measured,2026-06-01 18:20:25
+secure_storage,ushell,262144,00549.25,477278.00,1,0,measured,2026-06-01 18:20:25
+secure_storage,ushell,1048576,00486.14,2156961.00,1,0,measured,2026-06-01 18:20:25
+signed_compression,coyote,8192,01754.18,4670.00,1,0,measured,2026-06-01 18:22:02
+signed_compression,coyote,262144,74898.29,3500.00,1,0,measured,2026-06-01 18:22:02
+signed_compression,coyote,1048576,354248.65,2960.00,1,0,measured,2026-06-01 18:22:03
+signed_compression,ushell_mono,8192,00609.12,13449.00,1,0,measured,2026-06-01 18:23:39
+signed_compression,ushell,8192,00711.11,11520.00,1,0,measured,2026-06-01 18:30:46
+speech_recognition,coyote,8192,1717.40,4770.00,1,0,measured,2026-06-01 18:37:54
+speech_recognition,coyote,262144,72616.07,3610.00,1,0,measured,2026-06-01 18:37:54
+speech_recognition,coyote,1048576,203212.40,5160.00,1,0,measured,2026-06-01 18:42:59
+speech_recognition,ushell_mono,8192,266.32,30760.00,1,0,measured,2026-06-01 18:44:45
+speech_recognition,ushell,8192,256.73,31909.00,1,0,measured,2026-06-01 18:51:53
+audio_processing,coyote,8192,1900.70,4310.00,1,0,measured,2026-06-01 19:24:19
+audio_processing,coyote,262144,39067.66,6710.00,1,0,measured,2026-06-01 19:24:20
+audio_processing,ushell_mono,8192,20.52,49900.00,1,0,measured,2026-06-01 19:31:26
+audio_processing,ushell_mono,1048576,80.40,1630174.00,1,0,measured,2026-06-01 19:31:43
+audio_processing,ushell,8192,17.34,59060.00,1,0,measured,2026-06-01 19:33:44
+audio_processing,ushell,1048576,79.51,1648494.00,1,0,measured,2026-06-01 19:34:01
+digital_signature,coyote,8192,02095.14,3910.00,1,0,measured,2026-06-01 19:35:46
+digital_signature,coyote,262144,98181.27,2670.00,1,0,measured,2026-06-01 19:35:47
+digital_signature,coyote,1048576,359101.37,2920.00,1,0,measured,2026-06-01 19:35:47
+digital_signature,ushell_mono,8192,00236.43,34649.00,1,0,measured,2026-06-01 19:37:38
+digital_signature,ushell,8192,00213.89,38300.00,1,0,measured,2026-06-01 19:39:55
+secure_storage,coyote,8192,00134.78,60780.00,1,0,measured,2026-06-01 19:41:57
+secure_storage,coyote,262144,04335.11,60470.00,1,0,measured,2026-06-01 19:41:58
+audio_processing,coyote,8192,1955.60,4189.00,1,0,measured,2026-06-04 18:18:41
+audio_processing,coyote,262144,39061.84,6711.00,1,0,measured,2026-06-04 18:18:41
+audio_processing,ushell_mono,8192,20.02,51160.00,1,0,measured,2026-06-04 18:25:46
+audio_processing,ushell_mono,262144,64.82,505558.00,1,0,measured,2026-06-04 18:25:47
+audio_processing,ushell_mono,1048576,60.79,2156263.00,1,0,measured,2026-06-04 18:25:49
+audio_processing,coyote,8192,1575.38,5200.00,1,0,measured,2026-06-06 05:02:10
+audio_processing,coyote,262144,38951.56,6730.00,1,0,measured,2026-06-06 05:02:10
+audio_processing,ushell_mono,8192,23.91,42830.00,1,0,measured,2026-06-06 05:09:01
+audio_processing,ushell_mono,262144,63.23,518247.00,1,0,measured,2026-06-06 05:09:03
+audio_processing,ushell_mono,1048576,64.48,2032750.00,1,0,measured,2026-06-06 05:09:04
+digital_signature,coyote,8192,02022.72,4050.00,1,0,measured,2026-06-23 08:15:26
+digital_signature,coyote,262144,94636.82,2770.00,1,0,measured,2026-06-23 08:15:26
+digital_signature,coyote,1048576,406424.81,2580.00,1,0,measured,2026-06-23 08:15:27
+digital_signature,ushell_mono,8192,00225.05,36400.00,1,0,measured,2026-06-23 08:17:00
+digital_signature,ushell_mono,262144,01400.87,187130.00,1,0,measured,2026-06-23 08:17:06
+digital_signature,ushell_mono,1048576,01283.99,816657.00,1,0,measured,2026-06-23 08:17:13
+digital_signature,ushell,8192,00253.23,32350.00,1,0,measured,2026-06-23 08:19:05
+digital_signature,ushell,262144,01211.11,216449.00,1,0,measured,2026-06-23 08:19:12
+digital_signature,ushell,1048576,01469.01,713797.00,1,0,measured,2026-06-23 08:19:19
+secure_storage,coyote,8192,00134.61,60859.00,1,0,measured,2026-06-23 08:20:58
+secure_storage,coyote,262144,04270.84,61380.00,1,0,measured,2026-06-23 08:20:58
+secure_storage,ushell_mono,8192,00258.34,31710.00,1,0,measured,2026-06-23 08:27:49
+secure_storage,ushell_mono,262144,00540.86,484678.00,1,0,measured,2026-06-23 08:27:50
+secure_storage,ushell_mono,1048576,00528.23,1985083.00,1,0,measured,2026-06-23 08:27:50
+secure_storage,ushell,8192,00281.32,29120.00,1,0,measured,2026-06-23 08:29:40
+secure_storage,ushell,262144,00517.93,506138.00,1,0,measured,2026-06-23 08:29:40
+secure_storage,ushell,1048576,00545.69,1921544.00,1,0,measured,2026-06-23 08:29:40
+signed_compression,coyote,8192,02150.13,3810.00,1,0,measured,2026-06-23 08:31:16
+signed_compression,coyote,262144,97451.30,2690.00,1,0,measured,2026-06-23 08:31:16
+signed_compression,coyote,1048576,375833.69,2790.00,1,0,measured,2026-06-23 08:31:16
+signed_compression,ushell_mono,8192,00752.94,10880.00,1,0,measured,2026-06-23 08:33:07
+signed_compression,ushell_mono,262144,01604.61,163369.00,1,0,measured,2026-06-23 08:33:16
+signed_compression,ushell_mono,1048576,01902.42,551179.00,1,0,measured,2026-06-23 08:38:28
+signed_compression,ushell,8192,00448.39,18270.00,1,0,measured,2026-06-23 08:40:28
+signed_compression,ushell,262144,01739.41,150709.00,1,0,measured,2026-06-23 08:40:37
+signed_compression,ushell,1048576,01888.45,555258.00,1,0,measured,2026-06-23 08:45:44
+speech_recognition,coyote,8192,2068.69,3960.00,1,0,measured,2026-06-23 08:47:30
+speech_recognition,coyote,262144,88562.16,2960.00,1,0,measured,2026-06-23 08:47:30
+speech_recognition,coyote,1048576,77157.91,13590.00,1,0,measured,2026-06-23 08:52:35
+speech_recognition,ushell_mono,8192,254.81,32150.00,1,0,measured,2026-06-23 08:54:34
+speech_recognition,ushell_mono,262144,620.06,422769.00,1,0,measured,2026-06-23 08:54:43
+speech_recognition,ushell_mono,1048576,640.44,1637284.00,1,0,measured,2026-06-23 08:59:56
+speech_recognition,ushell,8192,237.93,34430.00,1,0,measured,2026-06-23 09:01:55
+speech_recognition,ushell,262144,614.64,426498.00,1,0,measured,2026-06-23 09:02:04
+speech_recognition,ushell,1048576,661.31,1585595.00,1,0,measured,2026-06-23 09:07:16

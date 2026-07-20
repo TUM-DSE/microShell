@@ -261,9 +261,9 @@ namespace fpga
 	// Util: Read a byte from the input stream and return it 
 	uint8_t cRnfg::readByte(ifstream &fb)
 	{
-		# ifdef VERBOSE
-            std::cout << "cRnfg: Called readByte to read from input-stream." << std::endl; 
-        # endif
+		// # ifdef VERBOSE
+        //     std::cout << "cRnfg: Called readByte to read from input-stream." << std::endl; 
+        // # endif
 
 		char temp;
 		fb.read(&temp, 1);

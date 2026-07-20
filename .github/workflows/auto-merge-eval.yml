@@ -1,0 +1,44 @@
+name: Auto Merge Evaluation
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'evaluation/**'
+
+jobs:
+  merge-directories:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+      
+      - name: Merge directory
+        run: |
+          # Fetch latest changes
+          git fetch origin baseline
+          
+          # Checkout target branch
+          git checkout baseline
+          git pull origin baseline
+          
+          # Get the directory from source branch
+          git checkout master -- evaluation/
+          
+          # Commit if there are changes
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "Auto-merge evaluation directory from master to baseline [skip ci]"
+            git push origin baseline
+          else
+            echo "No changes to merge"
+          fi

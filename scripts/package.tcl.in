@@ -98,6 +98,12 @@ for {set i 0} {$i < $cfg(n_config)} {incr i} {
         eval $cmd
         add_files -norecurse "$build_dir/$project\_config_$i/user\_c$i\_$j/hdl/vfpga_top.svh"
 
+        # Substitute "_c0" in files by actual region names
+        # set cmd "exec /usr/bin/bash -c \"cd $project\_config_$i/user\_c$i\_$j/hdl  && sed -i 's/_c0/_c$j/g' *sv* \""
+        set cmd "exec /usr/bin/bash -c \"sed -i 's/_c1/_c$j/g' $build_dir/$project\_config_$i/user\_c$i\_$j/hdl/vfpga_top.svh \""
+        puts "Execute command: $cmd"
+        eval $cmd
+
         # IP instantiation
         if {[file exists "${CMAKE_SOURCE_DIR}/$tmp_path/init_ip.tcl"]} {
             source "${CMAKE_SOURCE_DIR}/$tmp_path/init_ip.tcl"

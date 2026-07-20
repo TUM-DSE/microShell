@@ -1,0 +1,186 @@
+Folder: ../data/composability_2/vision/L3/examples/colordetect
+File: ../data/composability_2/vision/L3/examples/colordetect/xf_colordetect_accel.cpp
+Number of Functions: 6
+Functions:
+  xf::cv::Array2xfMat
+  xf::cv::bgr2hsv
+  xf::cv::colorthresholding
+  xf::cv::dilate
+  xf::cv::erode
+  xf::cv::xfMat2Array
+
+Folder: ../data/composability_2/vision/L3/examples/cornertracker
+File: ../data/composability_2/vision/L3/examples/cornertracker/xf_cornerupdate_accel.cpp
+Number of Functions: 1
+Functions:
+  xf::cv::cornerUpdate
+
+Folder: ../data/composability_2/vision/L3/examples/cornertracker
+File: ../data/composability_2/vision/L3/examples/cornertracker/xf_pyr_dense_optical_flow_accel.cpp
+Number of Functions: 3
+Functions:
+  xf::cv::Array2xfMat
+  xf::cv::densePyrOpticalFlow
+  xf::cv::xfMat2Array
+
+Folder: ../data/composability_2/vision/L3/examples/cornertracker
+File: ../data/composability_2/vision/L3/examples/cornertracker/xf_pyr_down_accel.cpp
+Number of Functions: 3
+Functions:
+  xf::cv::Array2xfMat
+  xf::cv::pyrDown
+  xf::cv::xfMat2Array
+
+Folder: ../data/composability_2/vision/L3/examples/gaussiandifference
+File: ../data/composability_2/vision/L3/examples/gaussiandifference/xf_gaussian_diff_accel.cpp
+Number of Functions: 5
+Functions:
+  xf::cv::Array2xfMat
+  xf::cv::GaussianBlur
+  xf::cv::duplicateMat
+  xf::cv::subtract
+  xf::cv::xfMat2Array
+
+Folder: ../data/composability_2/vision/L3/examples/isp_multistream
+File: ../data/composability_2/vision/L3/examples/isp_multistream/xf_isp_accel.cpp
+Number of Functions: 14
+Functions:
+  xf::cv::AWBChannelGain
+  xf::cv::AWBGainUpdate
+  xf::cv::AWBNormalization
+  xf::cv::AWBhistogram
+  xf::cv::Array2xfMat
+  xf::cv::badpixelcorrection
+  xf::cv::blackLevelCorrection
+  xf::cv::colorcorrectionmatrix
+  xf::cv::demosaicing
+  xf::cv::gaincontrol
+  xf::cv::gammacorrection
+  xf::cv::rgb2yuyv
+  xf::cv::xfMat2Array
+  xf::cv::xf_QuatizationDithering
+
+Folder: ../data/composability_2/vision/L3/examples/isppipeline
+File: ../data/composability_2/vision/L3/examples/isppipeline/xf_isp_accel.cpp
+Number of Functions: 14
+Functions:
+  xf::cv::AWBChannelGain
+  xf::cv::AWBGainUpdate
+  xf::cv::AWBNormalization
+  xf::cv::AWBhistogram
+  xf::cv::Array2xfMat
+  xf::cv::badpixelcorrection
+  xf::cv::blackLevelCorrection
+  xf::cv::colorcorrectionmatrix
+  xf::cv::demosaicing
+  xf::cv::gaincontrol
+  xf::cv::gammacorrection
+  xf::cv::rgb2yuyv
+  xf::cv::xfMat2Array
+  xf::cv::xf_QuatizationDithering
+
+Folder: ../data/composability_2/vision/L3/examples/isppipeline_gtm
+File: ../data/composability_2/vision/L3/examples/isppipeline_gtm/xf_isp_accel.cpp
+Number of Functions: 14
+Functions:
+  xf::cv::AWBChannelGain
+  xf::cv::AWBGainUpdate
+  xf::cv::AWBNormalization
+  xf::cv::AWBhistogram
+  xf::cv::Array2xfMat
+  xf::cv::badpixelcorrection
+  xf::cv::blackLevelCorrection
+  xf::cv::colorcorrectionmatrix
+  xf::cv::demosaicing
+  xf::cv::gaincontrol
+  xf::cv::gammacorrection
+  xf::cv::gtm
+  xf::cv::rgb2yuyv
+  xf::cv::xfMat2Array
+
+Folder: ../data/composability_2/vision/L3/examples/isppipeline_hdr
+File: ../data/composability_2/vision/L3/examples/isppipeline_hdr/xf_isp_accel.cpp
+Number of Functions: 15
+Functions:
+  xf::cv::AWBChannelGain
+  xf::cv::AWBGainUpdate
+  xf::cv::AWBNormalization
+  xf::cv::AWBhistogram
+  xf::cv::Array2xfMat
+  xf::cv::Hdrmerge_bayer
+  xf::cv::badpixelcorrection
+  xf::cv::blackLevelCorrection
+  xf::cv::colorcorrectionmatrix
+  xf::cv::demosaicing
+  xf::cv::gaincontrol
+  xf::cv::gammacorrection
+  xf::cv::rgb2yuyv
+  xf::cv::xfMat2Array
+  xf::cv::xf_QuatizationDithering
+
+Folder: ../data/composability_2/vision/L3/examples/isppipeline_mono
+File: ../data/composability_2/vision/L3/examples/isppipeline_mono/xf_isp_accel.cpp
+Number of Functions: 7
+Functions:
+  xf::cv::Array2xfMat
+  xf::cv::blackLevelCorrection
+  xf::cv::gaincontrol_mono
+  xf::cv::gammacorrection
+  xf::cv::medianBlur
+  xf::cv::xfMat2Array
+  xf::cv::xf_QuatizationDithering
+
+Folder: ../data/composability_2/vision/L3/examples/isppipeline_rgbir
+File: ../data/composability_2/vision/L3/examples/isppipeline_rgbir/xf_isp_accel.cpp
+Number of Functions: 12
+Functions:
+  xf::cv::AWBChannelGain
+  xf::cv::AWBGainUpdate
+  xf::cv::AWBNormalization
+  xf::cv::AWBhistogram
+  xf::cv::Array2xfMat
+  xf::cv::demosaicing
+  xf::cv::gaincontrol
+  xf::cv::gammacorrection
+  xf::cv::rgb2yuyv
+  xf::cv::rgbir2bayer
+  xf::cv::xfMat2Array
+  xf::cv::xf_QuatizationDithering
+
+Folder: ../data/composability_2/vision/L3/examples/letterbox
+File: ../data/composability_2/vision/L3/examples/letterbox/xf_letterbox_accel.cpp
+Number of Functions: 4
+Functions:
+  xf::cv::Array2xfMat
+  xf::cv::insertBorder
+  xf::cv::resize
+  xf::cv::xfMat2Array
+
+Folder: ../data/composability_2/vision/L3/examples/stereopipeline
+File: ../data/composability_2/vision/L3/examples/stereopipeline/xf_stereo_pipeline_accel.cpp
+Number of Functions: 5
+Functions:
+  xf::cv::Array2xfMat
+  xf::cv::InitUndistortRectifyMapInverse
+  xf::cv::StereoBM
+  xf::cv::remap
+  xf::cv::xfMat2Array
+
+Folder: ../data/composability_2/vision/L3/examples/tvl1
+File: ../data/composability_2/vision/L3/examples/tvl1/xf_img_pyramid_accel.cpp
+Number of Functions: 3
+Functions:
+  xf::cv::Array2xfMat
+  xf::cv::resize
+  xf::cv::xfMat2Array
+
+Folder: ../data/composability_2/vision/L3/examples/tvl1
+File: ../data/composability_2/vision/L3/examples/tvl1/xf_tvl1_accel.cpp
+Number of Functions: 5
+Functions:
+  xf::cv::Array2xfMat
+  xf::cv::Ptr2xfMat
+  xf::cv::medianBlur
+  xf::cv::xfMat2Array
+  xf::cv::xfMat2Ptr
+

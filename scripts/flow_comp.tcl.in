@@ -40,9 +40,9 @@ if {$cfg(build_opt) eq 1} {
 write_checkpoint -force "$dcp_dir/shell_phys_opted.dcp"
 puts "[color $clr_flow "** Shell phys_opt_design completed"]"
 puts "[color $clr_flow "**"]"
-
+set_param route.enableGlobalRouting false
 if {$cfg(build_opt) eq 1} {
-    route_design -directive AggressiveExplore
+    route_design -directive Explore
 } else {
     route_design
 }

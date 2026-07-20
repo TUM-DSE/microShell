@@ -28,7 +28,7 @@ constexpr auto const defTargetVfid = 0;
 
 constexpr auto const nReps = 1;
 constexpr auto const defSize = 128; // 2^7
-constexpr auto const maxSize = 16 * 1024;
+constexpr auto const maxSize = 1024;
 constexpr auto const clkNs = 1000.0 / 250.0;
 constexpr auto const nBenchRuns = 100;  
 

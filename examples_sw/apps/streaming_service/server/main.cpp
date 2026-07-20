@@ -91,13 +91,16 @@ int main(int argc, char *argv[])
     */
     cService *cservice = cService::getInstance("streaming", false, vfid, cs_dev);
     std::cout << std::endl << "Shell loading ..." << std::endl << std::endl;
-    cservice->shellReconfigure("shell_bstream.bin");
+    cservice->shellReconfigure("shell_top.bin");
 
     /**
      * @brief Load all operators (partial images) into the scheduler and start the operation
      * 
      */
-
+    // load_apps (
+    //     VFPGA_C0_0 "apps/hyperloglog"    
+    //     VFPGA_C1_0 "apps/gbm_dtrees"    
+    // )
     cservice->addBitstream("app_bstream_hloglog.bin", operatorHLL);
     cservice->addBitstream("app_bstream_dtrees.bin", operatorDtrees);
     

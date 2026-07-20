@@ -13,6 +13,8 @@
 
 #include "cSched.hpp"
 
+#define SAME_OID_BONUS 8
+
 using namespace std::chrono;
 
 namespace fpga
@@ -32,7 +34,11 @@ namespace fpga
 	cSched::cSched(int32_t vfid, uint32_t dev, bool priority, bool reorder)
 		: cRnfg(dev), vfid(vfid), priority(priority), reorder(reorder),
 		  plock(open_or_create, ("vpga_mtx_user_" + std::to_string(vfid)).c_str()),
+#ifndef NEW_SCHEDULER
 		  request_queue(taskCmprSched(priority, reorder))
+#else
+		  request_queue(0)
+#endif
 	{
 		DBG3("cSched:  ctor called, vfid " << vfid);
 
@@ -49,6 +55,9 @@ namespace fpga
 
 		// Set configuration programmability based on return value from the ioctl-call 
 		fcnfg.en_pr = tmp[0];
+#ifdef NEW_SCHEDULER
+		DBG3("Using SysLab Scheduler.");
+#endif
 	}
 
 	/**
@@ -68,6 +77,9 @@ namespace fpga
 
 		DBG3("cSched:  joining");
 		scheduler_thread.join(); // Stop the scheduling thread 
+
+		syslog(LOG_NOTICE, "Total Reconfigurations: %d", num_reconfigurations);
+		syslog(LOG_NOTICE, "Total time for reconfigurations: %f µs", time_reconfigurations);
 
 		// Iterate over all bitstreams and remove them one after each other 
 		for (auto &it : bstreams)
@@ -93,14 +105,34 @@ namespace fpga
 
 		// Thread
 		DBG3("cSched:  initial lock");
+		syslog(LOG_NOTICE, "cSched: initial lock");
 
 		// Create the scheduler-thread to execute the processRequests-function 
 		scheduler_thread = thread(&cSched::processRequests, this);
 		DBG3("cSched:  thread started, vfid: " << vfid);
+		syslog(LOG_NOTICE, "cSched: thread started, vfig: %d", vfid);
 
 		cv_queue.wait(lck_q);
 		DBG3("cSched:  ctor finished, vfid: " << vfid);
+		syslog(LOG_NOTICE, "cSched:  ctor finished, vfid: %d", vfid);
 	}
+
+#ifdef NEW_SCHEDULER
+inline bool compare(const std::unique_ptr<cLoad>& t1, const std::unique_ptr<cLoad>& t2) {
+        const uint32_t prio1 = t1->priority + t1->wait_time + t1->same_oid_bonus;
+        const uint32_t prio2 = t2->priority + t2->wait_time + t2->same_oid_bonus;
+
+        syslog(LOG_NOTICE, "Comparing %d (%d) -> %d; and %d (%d) -> %d", t1->ctid, t1->oid, prio1, t2->ctid, t2->oid, prio2);
+        if (prio1 != prio2) {
+            return prio1 > prio2;
+        } else if (t1->same_oid_bonus != t2->same_oid_bonus) {
+            return t1->same_oid_bonus > t2->same_oid_bonus;
+        } else {
+            return t1->oid > t2->oid;
+        }
+    }
+#endif
+
 
 	// ======-------------------------------------------------------------------------------
 	// (Thread) Process requests
@@ -132,9 +164,31 @@ namespace fpga
 			if (!request_queue.empty())
 			{
 
+#ifndef NEW_SCHEDULER
 				// Grab next reconfig request from the top of the queue 
 				auto curr_req = std::move(const_cast<std::unique_ptr<cLoad> &>(request_queue.top()));
 				request_queue.pop();
+#else
+				// Increment wait time and adjust same_oid_bonus
+				syslog(LOG_NOTICE, "%lu tasks currently scheduled, curr_oid=%d", request_queue.size(), curr_oid);
+				for (auto& task : request_queue) {
+					task->wait_time += 1;
+					if (task->oid == curr_oid) task->same_oid_bonus = SAME_OID_BONUS;
+					else task->same_oid_bonus = 0;
+					syslog(LOG_NOTICE, "Task %d (%d) has priority %d, wait time %d and bonus %d", task->ctid, task->oid, task->priority, task->wait_time, task->same_oid_bonus);
+				}
+
+				// Get task with highest value of (priority + wait_time + no_reschedule)
+				int max_index = 0;
+				for (int i = 1; i < request_queue.size(); ++i) {
+					if (compare(request_queue[i], request_queue[max_index])) max_index = i;
+					// if (*request_queue[i] > *request_queue[max_index]) max_index = i;
+				}
+				auto curr_req = std::move(request_queue[max_index]);
+				request_queue.erase(request_queue.begin() + max_index);
+				syslog(LOG_NOTICE, "Task %d (%d) scheduled next", curr_req->ctid, curr_req->oid);	
+#endif
+
 				lck_q.unlock();
 
 				# ifdef VERBOSE
@@ -147,21 +201,32 @@ namespace fpga
 				// Check whether reconfiguration is possible
 				if (isReconfigurable())
 				{
+					syslog(LOG_NOTICE, "Checking reconfiguration: %d ->? %d", curr_oid, curr_req->oid);
 					// Check if the current operation ID is different to the one pulled from the request queue. Only then a reconfiguration is actually required. 
-					if (curr_oid != curr_req->oid)
-					{
+					// if (curr_oid != curr_req->oid)
+					// {
 						# ifdef VERBOSE
             				std::cout << "cSched: Trigger a reconfiguration." << std::endl; 
         				# endif
+						syslog(LOG_NOTICE, "Performing reconfiguration: %d -> %d", curr_oid, curr_req->oid);
 
+						// change here when using software simulation
+           				auto begin_time = chrono::high_resolution_clock::now();
 						reconfigure(curr_req->oid); // If reconfiguration is possible and oid has changed, start a reconfiguration 
+						auto end_time = chrono::high_resolution_clock::now();
+            			double time = chrono::duration_cast<std::chrono::microseconds>(end_time - begin_time).count();
+						std::cout << "cSched: Trigger a reconfiguration." << time << std::endl; 
+            			syslog(LOG_NOTICE, "Reconfiguration done in %f µs", time);
+						time_reconfigurations += time;
+
 						recIssued = true;
 						curr_oid = curr_req->oid; // Update current operator ID 
-					}
-					else
-					{
-						recIssued = false;
-					}
+					// }
+					// else
+					// {
+					// 	syslog(LOG_NOTICE, "No reconfiguration required");
+					// 	recIssued = false;
+					// }
 				}
 
 				// Notify
@@ -206,9 +271,14 @@ namespace fpga
 		# ifdef VERBOSE
             std::cout << "cSched: Called pLock to place a new load in the request-queue." << std::endl; 
         # endif
-
+		syslog(LOG_NOTICE, "Adding new task with ctid %d, oid %d, priority %d", ctid, oid, priority);
 		unique_lock<std::mutex> lck_q(mtx_queue);
+#ifndef NEW_SCHEDULER
 		request_queue.emplace(std::unique_ptr<cLoad>(new cLoad{ctid, oid, priority}));
+#else
+		request_queue.push_back(std::unique_ptr<cLoad>(new cLoad{ctid, oid, priority, 0, 0}));
+#endif
+		syslog(LOG_NOTICE, "Request Queue size: %lu", request_queue.size());
 		lck_q.unlock();
 
 		unique_lock<std::mutex> lck_r(mtx_rcnfg);
@@ -249,6 +319,7 @@ namespace fpga
 		{
 			auto bstream = bstreams[oid];
 			reconfigureBase(std::get<0>(bstream), std::get<1>(bstream), vfid);
+			++num_reconfigurations;
 		}
 	}
 
@@ -268,6 +339,7 @@ namespace fpga
 		if (bstreams.find(oid) == bstreams.end())
 		{
 			// Create an input-stream of the bitstream, from it's original file 
+			syslog(LOG_NOTICE, "loading bitstream %s", name.c_str());
 			ifstream f_bit(name, ios::ate | ios::binary);
 			if (!f_bit)
 				throw std::runtime_error("Shell bitstream could not be opened");
@@ -276,6 +348,7 @@ namespace fpga
 			bStream bstream = readBitstream(f_bit);
 			f_bit.close();
 			DBG3("Bitstream loaded, oid: " << oid);
+			syslog(LOG_NOTICE, "Bitstream loaded, oid: %d", oid);
 			
 			// Insert the new bitstream with the operator ID in the bitstream-map 
 			bstreams.insert({oid, bstream});

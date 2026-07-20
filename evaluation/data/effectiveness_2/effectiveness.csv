@@ -1,0 +1,11 @@
+app,mode,throughput_MBps,latency_ns,n_reps,stddev_MBps,source,timestamp
+audio_processing,cpu_sync,61.2,,1,0.1,paper,paper
+audio_processing,direct,225.8,,1,0.5,paper,paper
+digital_signature,cpu_sync,215.1,,1,1.4,paper,paper
+digital_signature,direct,239.5,,1,1.2,paper,paper
+secure_storage,cpu_sync,153.9,,1,0.4,paper,paper
+secure_storage,direct,159.8,,1,0.1,paper,paper
+signed_compression,cpu_sync,149.3,,1,0.2,paper,paper
+signed_compression,direct,154.4,,1,0.0,paper,paper
+speech_recognition,cpu_sync,26.0,,1,0.0,paper,paper
+speech_recognition,direct,69.7,,1,0.0,paper,paper

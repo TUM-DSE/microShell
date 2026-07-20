@@ -58,6 +58,8 @@ req_t [N_DESTS-1:0] request_snk;
 
 logic ready_src;
 logic valid_src;
+logic req_out_valid;
+(* mark_debug = "true" *) logic [OFFS_BITS-1:0]  req_out_offs;
 req_t request_src;
 
 logic [N_DESTS_BITS-1:0] dest;
@@ -77,7 +79,7 @@ for(genvar i = 0; i < N_DESTS; i++) begin
     assign request_snk[i] = s_req[i].data;
 end
 
-assign m_req_int.valid = valid_src;
+assign m_req_int.valid = valid_src && req_out_valid;
 assign ready_src = m_req_int.ready;
 assign m_req_int.data = request_src;
 
@@ -100,12 +102,16 @@ end
 always_comb begin
     ready_snk = 0;
     valid_src = 1'b0;
+    req_out_valid = 1'b0;
+    req_out_offs = 0;
     dest = 0;
 
     for(int i = 0; i < N_DESTS; i++) begin
         if(i+rr_reg >= N_DESTS) begin
             if(valid_snk[i+rr_reg-N_DESTS]) begin
                 valid_src = valid_snk[i+rr_reg-N_DESTS] && user_seq_in.ready;
+                req_out_offs = request_snk[i+rr_reg-N_DESTS].offs;
+                req_out_valid = request_snk[i+rr_reg-N_DESTS].offs != 6;
                 dest = i+rr_reg-N_DESTS;
                 break;
             end
@@ -113,6 +119,8 @@ always_comb begin
         else begin
             if(valid_snk[i+rr_reg]) begin
                 valid_src = valid_snk[i+rr_reg] && user_seq_in.ready;
+                req_out_offs = request_snk[i+rr_reg].offs;
+                req_out_valid = request_snk[i+rr_reg].offs != 6;
                 dest = i+rr_reg;
                 break;
             end

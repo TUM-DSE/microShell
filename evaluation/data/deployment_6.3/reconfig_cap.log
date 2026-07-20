@@ -1,0 +1,170 @@
+
+-- [31m[1mPARAMS[0m[0m
+-----------------------------------------------
+Number of regions: 2
+Hugepages: 1
+Mapped pages: 1
+Streaming: HOST
+Number of repetitions (thr): 1
+Number of repetitions (lat): 1
+Starting transfer size: 1024
+Ending transfer size: 1024
+
+bThread:  opening vFPGA-0, hpid 958473
+bThread:  ctor, ctid: 0, vfid: 0, hpid: 958473
+bThread:  mapped cnfg_reg_avx at: 78394de90000
+bThread:  mapped ctrl_reg at: 78394de80000
+bThread:  mapped writeback regions at: 78394de7f000
+bThread:  ctor finished
+Mapped mem at: 78394dc00000
+Mem allocation done in 332 µs
+bThread:  opening vFPGA-1, hpid 958473
+bThread:  ctor, ctid: 0, vfid: 1, hpid: 958473
+bThread:  mapped cnfg_reg_avx at: 78394de3e000
+bThread:  mapped ctrl_reg at: 78394de2e000
+bThread:  mapped writeback regions at: 78394de2d000
+bThread:  ctor finished
+Mapped mem at: 78394da00000
+Mem allocation done in 346 µs
+in en_avx ioSwitch: 1020
+Object capability done in 4 µs
+in en_avx ioSwitch: 2044
+Object capability done in 4 µs
+Memory capability done in 2 µs
+Memory capability done in 2 µs
+
+-- [31m[1mPARAMS[0m[0m
+-----------------------------------------------
+Number of regions: 2
+Hugepages: 1
+Mapped pages: 1
+Streaming: HOST
+Number of repetitions (thr): 1
+Number of repetitions (lat): 1
+Starting transfer size: 1024
+Ending transfer size: 1024
+
+bThread:  opening vFPGA-0, hpid 958545
+bThread:  ctor, ctid: 0, vfid: 0, hpid: 958545
+bThread:  mapped cnfg_reg_avx at: 7f13d4ff2000
+bThread:  mapped ctrl_reg at: 7f13d4fe2000
+bThread:  mapped writeback regions at: 7f13d4fe1000
+bThread:  ctor finished
+Mapped mem at: 7f13d4c00000
+Mem allocation done in 353 µs
+bThread:  opening vFPGA-1, hpid 958545
+bThread:  ctor, ctid: 0, vfid: 1, hpid: 958545
+bThread:  mapped cnfg_reg_avx at: 7f13d4fa0000
+bThread:  mapped ctrl_reg at: 7f13d4f90000
+bThread:  mapped writeback regions at: 7f13d4f8f000
+bThread:  ctor finished
+Mapped mem at: 7f13d4a00000
+Mem allocation done in 294 µs
+in en_avx ioSwitch: 1020
+Object capability done in 4 µs
+in en_avx ioSwitch: 2044
+Object capability done in 4 µs
+Memory capability done in 2 µs
+Memory capability done in 2 µs
+
+-- [31m[1mPARAMS[0m[0m
+-----------------------------------------------
+Number of regions: 2
+Hugepages: 1
+Mapped pages: 1
+Streaming: HOST
+Number of repetitions (thr): 1
+Number of repetitions (lat): 1
+Starting transfer size: 1024
+Ending transfer size: 1024
+
+bThread:  opening vFPGA-0, hpid 958555
+bThread:  ctor, ctid: 0, vfid: 0, hpid: 958555
+bThread:  mapped cnfg_reg_avx at: 7977e42dd000
+bThread:  mapped ctrl_reg at: 7977e42cd000
+bThread:  mapped writeback regions at: 7977e42cc000
+bThread:  ctor finished
+Mapped mem at: 7977e4000000
+Mem allocation done in 422 µs
+bThread:  opening vFPGA-1, hpid 958555
+bThread:  ctor, ctid: 0, vfid: 1, hpid: 958555
+bThread:  mapped cnfg_reg_avx at: 7977e428b000
+bThread:  mapped ctrl_reg at: 7977e427b000
+bThread:  mapped writeback regions at: 7977e427a000
+bThread:  ctor finished
+Mapped mem at: 7977e3e00000
+Mem allocation done in 233 µs
+in en_avx ioSwitch: 1020
+Object capability done in 4 µs
+in en_avx ioSwitch: 2044
+Object capability done in 4 µs
+Memory capability done in 2 µs
+Memory capability done in 2 µs
+
+-- [31m[1mPARAMS[0m[0m
+-----------------------------------------------
+Number of regions: 2
+Hugepages: 1
+Mapped pages: 1
+Streaming: HOST
+Number of repetitions (thr): 1
+Number of repetitions (lat): 1
+Starting transfer size: 1024
+Ending transfer size: 1024
+
+bThread:  opening vFPGA-0, hpid 958559
+bThread:  ctor, ctid: 0, vfid: 0, hpid: 958559
+bThread:  mapped cnfg_reg_avx at: 76f029caf000
+bThread:  mapped ctrl_reg at: 76f029c9f000
+bThread:  mapped writeback regions at: 76f029c9e000
+bThread:  ctor finished
+Mapped mem at: 76f029a00000
+Mem allocation done in 408 µs
+bThread:  opening vFPGA-1, hpid 958559
+bThread:  ctor, ctid: 0, vfid: 1, hpid: 958559
+bThread:  mapped cnfg_reg_avx at: 76f029c5d000
+bThread:  mapped ctrl_reg at: 76f029c4d000
+bThread:  mapped writeback regions at: 76f029c4c000
+bThread:  ctor finished
+Mapped mem at: 76f029800000
+Mem allocation done in 219 µs
+in en_avx ioSwitch: 1020
+Object capability done in 4 µs
+in en_avx ioSwitch: 2044
+Object capability done in 4 µs
+Memory capability done in 2 µs
+Memory capability done in 2 µs
+
+-- [31m[1mPARAMS[0m[0m
+-----------------------------------------------
+Number of regions: 2
+Hugepages: 1
+Mapped pages: 1
+Streaming: HOST
+Number of repetitions (thr): 1
+Number of repetitions (lat): 1
+Starting transfer size: 1024
+Ending transfer size: 1024
+
+bThread:  opening vFPGA-0, hpid 958575
+bThread:  ctor, ctid: 0, vfid: 0, hpid: 958575
+bThread:  mapped cnfg_reg_avx at: 7f81aacdf000
+bThread:  mapped ctrl_reg at: 7f81aaccf000
+bThread:  mapped writeback regions at: 7f81aacce000
+bThread:  ctor finished
+Mapped mem at: 7f81aaa00000
+Mem allocation done in 443 µs
+bThread:  opening vFPGA-1, hpid 958575
+bThread:  ctor, ctid: 0, vfid: 1, hpid: 958575
+bThread:  mapped cnfg_reg_avx at: 7f81aac8d000
+bThread:  mapped ctrl_reg at: 7f81aac7d000
+bThread:  mapped writeback regions at: 7f81aac7c000
+bThread:  ctor finished
+Mapped mem at: 7f81aa800000
+Mem allocation done in 406 µs
+in en_avx ioSwitch: 1020
+Object capability done in 4 µs
+in en_avx ioSwitch: 2044
+Object capability done in 4 µs
+Memory capability done in 2 µs
+Memory capability done in 2 µs

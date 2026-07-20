@@ -1,0 +1,11 @@
+Shared sched logics,Reconfig overhead (ms),Policy
+0%,100,Partially reconfig
+25%,75,Partially reconfig
+50%,50,Partially reconfig
+75%,25,Partially reconfig
+100%,0,Partially reconfig
+0%,100,Coyote
+25%,100,Coyote
+50%,100,Coyote
+75%,100,Coyote
+100%,0,Coyote

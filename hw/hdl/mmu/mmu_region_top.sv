@@ -33,18 +33,23 @@ import lynxTypes::*;
 `include "lynx_macros.svh"
 
 /**
- * @brief   Top level MMU for a single vFPGA
+ * @brief   Top level MMU for a single vFPGA with Memory Gateway
  *
- * Top level of a single vFPGA TLB, feeds into the top level arbitration.
+ * Top level of a single vFPGA TLB with access control, feeds into the top level arbitration.
  *
- *  @param ID_REG   Number of associated vFPGA
+ *  @param ID_REG       Number of associated vFPGA
+ *  @param N_ENDPOINTS  Number of memory endpoints for access control
  */
 module mmu_region_top #(
-	parameter integer 					ID_REG = 0	
+	parameter integer 					ID_REG = 0,
+	parameter integer                   N_ENDPOINTS = 1	
 ) (
 	// AXI tlb control and writeback
     AXI4L.s   							s_axi_ctrl_sTlb,
     AXI4L.s   							s_axi_ctrl_lTlb,
+
+    // Control interface for memory endpoints
+    input logic [(131*N_ENDPOINTS)-1:0] ep_ctrl,
 
 	// Requests user
 	metaIntf.s 						    s_bpss_rd_sq,
@@ -76,6 +81,7 @@ module mmu_region_top #(
 `endif
 `endif
 
+    // TLB page faults (from TLB FSMs)
     metaIntf.m                          m_rd_pfault_irq,
     output logic [LEN_BITS-1:0]         m_rd_pfault_rng,
     metaIntf.s                          s_rd_pfault_ctrl,
@@ -83,6 +89,7 @@ module mmu_region_top #(
     output logic [LEN_BITS-1:0]         m_wr_pfault_rng,
     metaIntf.s                          s_wr_pfault_ctrl,
 
+    // TLB invalidation
     metaIntf.s                          s_rd_invldt_ctrl,
     metaIntf.m                          m_rd_invldt_irq,
     metaIntf.s                          s_wr_invldt_ctrl,
@@ -116,9 +123,133 @@ tlbIntf #(.TLB_INTF_DATA_BITS(TLB_S_DATA_BITS)) sTlb ();
 AXI4S #(.AXI4S_DATA_BITS(AXI_TLB_BITS)) axis_lTlb ();
 AXI4S #(.AXI4S_DATA_BITS(AXI_TLB_BITS)) axis_sTlb ();
 
-// Request interfaces
+// Request interfaces - only authorized requests from memory gateway
 metaIntf #(.STYPE(req_t)) rd_req ();
 metaIntf #(.STYPE(req_t)) wr_req ();
+
+// `META_ASSIGN(s_bpss_rd_sq, rd_req)
+// `META_ASSIGN(s_bpss_wr_sq, wr_req)
+
+// ----------------------------------------------------------------------------------------
+// Memory Gateway - Filters and only passes authorized requests
+// ----------------------------------------------------------------------------------------
+memory_gateway #(
+    .N_ENDPOINTS(N_ENDPOINTS)
+) inst_memory_gateway (
+    .aclk(aclk),
+    .aresetn(aresetn),
+    .ep_ctrl(ep_ctrl),
+    
+    // Original user requests
+    .s_rd_req(s_bpss_rd_sq),
+    .s_wr_req(s_bpss_wr_sq),
+    
+    // Only authorized requests pass through to TLB FSMs
+    .m_rd_req(rd_req),
+    .m_wr_req(wr_req)
+);
+
+// create_ip -name ila -vendor xilinx.com -library ip -version 6.2 -module_name ila_mem_gateway
+// set_property -dict [list \
+//     CONFIG.C_NUM_OF_PROBES {14} \
+//     CONFIG.C_PROBE0_WIDTH {1} \
+//     CONFIG.C_PROBE1_WIDTH {2} \
+//     CONFIG.C_PROBE2_WIDTH {64} \
+//     CONFIG.C_PROBE3_WIDTH {64} \
+//     CONFIG.C_PROBE4_WIDTH {64} \
+//     CONFIG.C_PROBE5_WIDTH {28} \
+//     CONFIG.C_PROBE6_WIDTH {64} \
+//     CONFIG.C_PROBE7_WIDTH {28} \
+//     CONFIG.C_PROBE8_WIDTH {1} \
+//     CONFIG.C_PROBE9_WIDTH {1} \
+//     CONFIG.C_PROBE10_WIDTH {1} \
+//     CONFIG.C_PROBE11_WIDTH {1} \
+//     CONFIG.C_PROBE12_WIDTH {1} \
+//     CONFIG.C_PROBE13_WIDTH {1} \
+//     CONFIG.C_EN_STRG_QUAL {1} \
+//     CONFIG.ALL_PROBE_SAME_MU_CNT {2} \
+// ] [get_ips ila_mem_gateway]
+
+ila_mem_gate_signal inst_ila_mem_gate_signal (
+    .clk(aclk),
+    .probe0(ep_ctrl_data)
+);
+
+ila_mem_region_top_req_t inst_rd_req_ila (
+    .clk(aclk),
+    .probe0(s_bpss_rd_sq.data.opcode),
+    .probe1(s_bpss_rd_sq.data.strm),
+    .probe2(s_bpss_rd_sq.data.mode),
+    .probe3(s_bpss_rd_sq.data.rdma),
+    .probe4(s_bpss_rd_sq.data.remote),
+    .probe5(s_bpss_rd_sq.data.vfid),
+    .probe6(s_bpss_rd_sq.data.pid),
+    .probe7(s_bpss_rd_sq.data.dest),
+    .probe8(s_bpss_rd_sq.data.last),
+    .probe9(s_bpss_rd_sq.data.vaddr),
+    .probe10(s_bpss_rd_sq.data.len),
+    .probe11(s_bpss_rd_sq.data.actv),
+    .probe12(s_bpss_rd_sq.data.host),
+    .probe13(s_bpss_rd_sq.data.offs),
+    .probe14(s_bpss_rd_sq.valid),
+    .probe15(s_bpss_rd_sq.ready),
+    .probe16(rd_req.data.opcode),
+    .probe17(rd_req.data.strm),
+    .probe18(rd_req.data.mode),
+    .probe19(rd_req.data.rdma),
+    .probe20(rd_req.data.remote),
+    .probe21(rd_req.data.vfid),
+    .probe22(rd_req.data.pid),
+    .probe23(rd_req.data.dest),
+    .probe24(rd_req.data.last),
+    .probe25(rd_req.data.vaddr),
+    .probe26(rd_req.data.len),
+    .probe27(rd_req.data.actv),
+    .probe28(rd_req.data.host),
+    .probe29(rd_req.data.offs),
+    .probe30(rd_req.valid),
+    .probe31(rd_req.ready)
+);
+
+// ila_mem_region_top_req_t inst_bpss_rd_req_ila (
+//     .clk(aclk),
+//     .probe0(s_bpss_rd_sq.data.opcode),
+//     .probe1(s_bpss_rd_sq.data.strm),
+//     .probe2(s_bpss_rd_sq.data.mode),
+//     .probe3(s_bpss_rd_sq.data.rdma),
+//     .probe4(s_bpss_rd_sq.data.remote),
+//     .probe5(s_bpss_rd_sq.data.vfid),
+//     .probe6(s_bpss_rd_sq.data.pid),
+//     .probe7(s_bpss_rd_sq.data.dest),
+//     .probe8(s_bpss_rd_sq.data.last),
+//     .probe9(s_bpss_rd_sq.data.vaddr),
+//     .probe10(s_bpss_rd_sq.data.len),
+//     .probe11(s_bpss_rd_sq.data.actv),
+//     .probe12(s_bpss_rd_sq.data.host),
+//     .probe13(s_bpss_rd_sq.data.offs),
+//     .probe14(s_bpss_rd_sq.valid),
+//     .probe15(s_bpss_rd_sq.ready)
+// );
+
+// ila_mem_region_top_req_t inst_rd_req_ila (
+//     .clk(aclk),
+//     .probe0(rd_req.data.opcode),
+//     .probe1(rd_req.data.strm),
+//     .probe2(rd_req.data.mode),
+//     .probe3(rd_req.data.rdma),
+//     .probe4(rd_req.data.remote),
+//     .probe5(rd_req.data.vfid),
+//     .probe6(rd_req.data.pid),
+//     .probe7(rd_req.data.dest),
+//     .probe8(rd_req.data.last),
+//     .probe9(rd_req.data.vaddr),
+//     .probe10(rd_req.data.len),
+//     .probe11(rd_req.data.actv),
+//     .probe12(rd_req.data.host),
+//     .probe13(rd_req.data.offs),
+//     .probe14(rd_req.valid),
+//     .probe15(rd_req.ready)
+// );
 
 // ----------------------------------------------------------------------------------------
 // Mutex 
@@ -258,7 +389,7 @@ tlb_slave_axil #(
     dmaIntf wr_DDMA_cred [N_CARD_AXI] ();
 `endif
 
-// TLB rd FSM
+// TLB rd FSM - receives only authorized requests
 tlb_fsm #(
     .ID_REG(ID_REG),
     .RDWR(0)
@@ -275,7 +406,7 @@ tlb_fsm #(
     .m_card_done(m_rd_card_done),
     .m_DDMA(rd_DDMA_fsm),
 `endif
-    .s_req(s_bpss_rd_sq),
+    .s_req(rd_req),  // Only authorized requests from memory gateway
 
     .m_pfault(m_rd_pfault_irq),
     .m_pfault_rng(m_rd_pfault_rng),
@@ -289,7 +420,7 @@ tlb_fsm #(
 	.mutex(mutex)
 );
 
-// TLB wr FSM
+// TLB wr FSM - receives only authorized requests
 tlb_fsm #(
     .ID_REG(ID_REG),
     .RDWR(1)
@@ -306,7 +437,7 @@ tlb_fsm #(
     .m_card_done(m_wr_card_done),
     .m_DDMA(wr_DDMA_fsm),
 `endif
-    .s_req(s_bpss_wr_sq),
+    .s_req(wr_req),  // Only authorized requests from memory gateway
 
     .m_pfault(m_wr_pfault_irq),
     .m_pfault_rng(m_wr_pfault_rng),

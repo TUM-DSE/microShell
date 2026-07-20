@@ -99,7 +99,12 @@ module cnfg_slave_avx #(
     metaIntf.s                  s_notify,
 
     // Control
-    output logic                usr_irq
+    output logic                usr_irq,
+
+    output logic [131-1:0]      ep_ctrl, 
+
+    // IO Control
+    output logic [13:0]          io_ctrl
 );
 
 // -- Decl -------------------------------------------------------------------------------
@@ -283,6 +288,7 @@ localparam integer CTRL_REG                                 = 0;
     localparam integer CTRL_CLR_STAT        = 22;
     localparam integer CTRL_LEN_OFFS        = 32;
     localparam integer CTRL_VADDR_OFFS      = 64;
+    localparam integer CTRL_OFFS_OFFS       = 120;
     localparam integer WR_OFFS              = 128;
     // RD
     localparam integer CTRL_USED_OFFS       = 0;
@@ -363,6 +369,12 @@ localparam integer TCP_OPEN_PORT_REG                        = 12;
 localparam integer TCP_OPEN_PORT_STAT_REG                   = 13;
 localparam integer TCP_OPEN_CONN_REG                        = 14;
 localparam integer TCP_OPEN_CONN_STAT_REG                   = 15;
+
+
+// 53 (RW): IO Switch
+localparam integer IO_SWITCH_REG                            = 53;
+
+localparam integer EP_CTRL_BASE_REG = 54;        // Base register for EP control
 
 // 64 (RO) : Status DMA completion
 localparam integer STAT_DMA_REG                             = 2**PID_BITS;
@@ -677,6 +689,21 @@ always_ff @(posedge aclk) begin
                     end
 `endif 
 
+                IO_SWITCH_REG: // IO switch configure
+                    for (int i = 0; i < AVX_DATA_BITS/8; i++) begin
+                        if(s_axim_ctrl.wstrb[i]) begin
+                            slv_reg[IO_SWITCH_REG][(i*8)+:8] <= s_axim_ctrl.wdata[(i*8)+:8];
+                        end
+                    end
+
+                EP_CTRL_BASE_REG:
+                    // Write to EP control registers
+                    for (int i = 0; i < AVX_DATA_BITS/8; i++) begin
+                        if(s_axim_ctrl.wstrb[i]) begin
+                            slv_reg[EP_CTRL_BASE_REG][(i*8)+:8] <= s_axim_ctrl.wdata[(i*8)+:8];
+                        end
+                    end
+
                 default: ;
             endcase
         end
@@ -764,6 +791,11 @@ always_ff @(posedge aclk) begin
             axi_rdata[1:0] <= open_port_sts_response[1:0];
 `endif 
 
+        [IO_SWITCH_REG:IO_SWITCH_REG]:
+            axi_rdata <= slv_reg[IO_SWITCH_REG];
+        
+        [EP_CTRL_BASE_REG:EP_CTRL_BASE_REG]:
+            axi_rdata <= slv_reg[EP_CTRL_BASE_REG];
 
         [STAT_DMA_REG:STAT_DMA_REG+(2**PID_BITS)-1]: begin
             axi_mux <= 1'b1; 
@@ -1033,6 +1065,14 @@ assign pfault_wr_ctrl.data = slv_reg[ISR_REG][ISR_SUCCESS];
 
 assign usr_irq = irq_pending;
 
+// IO control
+assign io_ctrl = slv_reg[IO_SWITCH_REG][13:0];
+assign ep_ctrl = slv_reg[EP_CTRL_BASE_REG][131-1:0];
+(* mark_debug = "true" *) logic [OFFS_BITS-1:0] req_1_offs, req_2_offs;
+
+assign req_1_offs = slv_reg[CTRL_REG][CTRL_OFFS_OFFS+:OFFS_BITS];
+assign req_2_offs = slv_reg[CTRL_REG][WR_OFFS+CTRL_OFFS_OFFS+:OFFS_BITS];
+
 // Host request
 metaIntf #(.STYPE(dreq_t)) host_req ();
 
@@ -1049,7 +1089,7 @@ assign host_req.data.req_1.actv         = slv_reg[CTRL_REG][CTRL_ACTV_OFFS];
 assign host_req.data.req_1.host         = 1'b1; // RSRVD
 assign host_req.data.req_1.vaddr        = slv_reg[CTRL_REG][CTRL_VADDR_OFFS+:VADDR_BITS];
 assign host_req.data.req_1.len          = slv_reg[CTRL_REG][CTRL_LEN_OFFS+:LEN_BITS];
-assign host_req.data.req_1.offs         = 0;
+assign host_req.data.req_1.offs         = slv_reg[CTRL_REG][CTRL_OFFS_OFFS+:OFFS_BITS];
 assign host_req.data.req_1.rsrvd        = 0;
 
 assign host_req.data.req_2.opcode       = slv_reg[CTRL_REG][WR_OFFS+CTRL_OPCODE_OFFS+:OPCODE_BITS];
@@ -1065,7 +1105,7 @@ assign host_req.data.req_2.actv         = slv_reg[CTRL_REG][WR_OFFS+CTRL_ACTV_OF
 assign host_req.data.req_2.host         = 1'b1; // RSRVD
 assign host_req.data.req_2.vaddr        = slv_reg[CTRL_REG][WR_OFFS+CTRL_VADDR_OFFS+:VADDR_BITS]; 
 assign host_req.data.req_2.len          = slv_reg[CTRL_REG][WR_OFFS+CTRL_LEN_OFFS+:LEN_BITS];
-assign host_req.data.req_2.offs         = 0;
+assign host_req.data.req_2.offs         = slv_reg[CTRL_REG][WR_OFFS+CTRL_OFFS_OFFS+:OFFS_BITS];
 assign host_req.data.req_2.rsrvd        = 0;
 
 assign host_req.valid = local_post || remote_post;

@@ -14,7 +14,7 @@ endtask
 
 module tb_user;
 
-    c_struct_t params = { 16 };
+    c_struct_t params = { 16, 10 };
 
     logic aclk = 1'b1;
     logic aresetn = 1'b0;
@@ -71,7 +71,8 @@ module tb_user;
     
     for(genvar i = 0; i < N_STRM_AXI; i++) begin
         initial begin
-            axis_host_drv[i] = new(axis_host_recv[i], axis_host_send[i], params, "HOST_STREAM");
+            // axis_host_drv[i] = new(axis_host_recv[i], axis_host_send[i], params, "HOST_STREAM");
+            axis_host_drv[i] = new(axis_host_recv[i], axis_host_send[i], 0, params);
         end
     end
 `endif
@@ -160,6 +161,7 @@ module tb_user;
         fork
     `ifdef EN_STRM
         for(int i = 0; i < N_STRM_AXI; i++) begin
+            $display("In env_threads()");
             axis_host_drv[i].run();
         end
     `endif
@@ -186,6 +188,7 @@ module tb_user;
     task env_done();
     `ifdef EN_STRM
         for(int i = 0; i < N_STRM_AXI; i++) begin
+            $display("In env_threads()");
             wait(axis_host_drv[i].done.triggered);
         end
     `endif

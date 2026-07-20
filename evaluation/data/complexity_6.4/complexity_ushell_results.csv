@@ -1,0 +1,11 @@
+app_name,variant,files,lines,blanks,comments,code,complexity,timestamp
+audio_processing,composed,1,270,45,48,177,14,2026-04-30 15:58:20
+audio_processing,monolithic,1,325,55,17,253,33,2026-04-30 15:58:20
+digital_signature,composed,1,251,42,45,164,14,2026-04-30 15:58:20
+digital_signature,monolithic,1,271,44,18,209,24,2026-04-30 15:58:20
+secure_storage,composed,1,296,51,50,195,21,2026-04-30 15:58:20
+secure_storage,monolithic,1,339,57,16,266,50,2026-04-30 15:58:20
+signed_compression,composed,1,323,49,52,222,32,2026-04-30 15:58:20
+signed_compression,monolithic,1,310,51,16,243,38,2026-04-30 15:58:20
+speech_recognition,composed,1,301,45,79,177,18,2026-04-30 15:58:20
+speech_recognition,monolithic,1,235,38,13,184,19,2026-04-30 15:58:20

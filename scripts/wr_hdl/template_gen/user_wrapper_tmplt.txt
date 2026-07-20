@@ -63,18 +63,15 @@ module design_user_wrapper_{{ c_reg }} (
     (* io_buffer_type = "none" *) input  logic                                notify_ready,
     (* io_buffer_type = "none" *) output irq_not_t                            notify_data,
 
-    // HOST DESCRIPTORS
-    (* io_buffer_type = "none" *) input  logic 							      host_sq_valid,
-    (* io_buffer_type = "none" *) output logic 							      host_sq_ready,
-    (* io_buffer_type = "none" *) input  dreq_t 							  host_sq_data,
+    // USER DESCRIPTORS
+    (* io_buffer_type = "none" *) output logic                                user_rd_sq_valid,
+    (* io_buffer_type = "none" *) input  logic                                user_rd_sq_ready,
+    (* io_buffer_type = "none" *) output req_t                                user_rd_sq_data,
+    (* io_buffer_type = "none" *) output logic                                user_wr_sq_valid,
+    (* io_buffer_type = "none" *) input  logic                                user_wr_sq_ready,
+    (* io_buffer_type = "none" *) output req_t                                user_wr_sq_data,
 
     // BYPASS DESCRIPTORS
-    (* io_buffer_type = "none" *) output logic                                bpss_rd_sq_valid,
-    (* io_buffer_type = "none" *) input  logic                                bpss_rd_sq_ready,
-    (* io_buffer_type = "none" *) output req_t                                bpss_rd_sq_data,
-    (* io_buffer_type = "none" *) output logic                                bpss_wr_sq_valid,
-    (* io_buffer_type = "none" *) input  logic                                bpss_wr_sq_ready,
-    (* io_buffer_type = "none" *) output req_t                                bpss_wr_sq_data,
     (* io_buffer_type = "none" *) input  logic                                bpss_rd_cq_valid,
     (* io_buffer_type = "none" *) output logic                                bpss_rd_cq_ready,
     (* io_buffer_type = "none" *) input  ack_t                                bpss_rd_cq_data,
@@ -87,16 +84,18 @@ module design_user_wrapper_{{ c_reg }} (
     (* io_buffer_type = "none" *) input  logic[AXI_DATA_BITS-1:0]             axis_host_sink_tdata,
     (* io_buffer_type = "none" *) input  logic[AXI_DATA_BITS/8-1:0]           axis_host_sink_tkeep,
     (* io_buffer_type = "none" *) input  logic                                axis_host_sink_tlast,
-    (* io_buffer_type = "none" *) output logic                                axis_host_sink_tready,
-    (* io_buffer_type = "none" *) input  logic                                axis_host_sink_tvalid,
+    (* mark_debug = "true", io_buffer_type = "none" *) output logic                                axis_host_sink_tready,
+    (* mark_debug = "true", io_buffer_type = "none" *) input  logic                                axis_host_sink_tvalid,
+    (* mark_debug = "true", io_buffer_type = "none" *) input  logic[PID_BITS-1:0]                  axis_host_sink_tid,
 
 	// AXI4S HOST SOURCE
     (* io_buffer_type = "none" *) output logic[AXI_DATA_BITS-1:0]             axis_host_src_tdata,
     (* io_buffer_type = "none" *) output logic[AXI_DATA_BITS/8-1:0]           axis_host_src_tkeep,
     (* io_buffer_type = "none" *) output logic                                axis_host_src_tlast,
-    (* io_buffer_type = "none" *) input  logic                                axis_host_src_tready,
-    (* io_buffer_type = "none" *) output logic                                axis_host_src_tvalid,
-  
+    (* mark_debug = "true", io_buffer_type = "none" *) input  logic                                axis_host_src_tready,
+    (* mark_debug = "true", io_buffer_type = "none" *) output logic                                axis_host_src_tvalid,
+    (* mark_debug = "true", io_buffer_type = "none" *) output logic[PID_BITS-1:0]                  axis_host_src_tid,
+
 {% endif %}
 {% if cnfg.en_mem %}
     {% for i in range(0, cnfg.n_card_axi) %}
@@ -190,6 +189,10 @@ module design_user_wrapper_{{ c_reg }} (
     (* io_buffer_type = "none" *) input  logic                                S_BSCAN_capture,
     (* io_buffer_type = "none" *) input  logic                                S_BSCAN_bscanid_en,
 
+    // User logic interconnect
+    (* io_buffer_type = "none" *) input  logic [1:0]                          port_in,
+    (* io_buffer_type = "none" *) output logic [1:0]                          port_out,
+
     // Clock and reset
     (* io_buffer_type = "none" *) input  logic                                aclk,
     (* io_buffer_type = "none" *) input  logic[0:0]                           aresetn,
@@ -233,28 +236,6 @@ module design_user_wrapper_{{ c_reg }} (
     assign notify_valid                         = notify.valid;
     assign notify_data                          = notify.data;
     assign notify.ready                         = notify_ready;
-
-    // Host descriptors
-    metaIntf #(.STYPE(dreq_t)) host_sq ();
-    metaIntf #(.STYPE(dreq_t)) host_sq_int ();
-    
-    assign host_sq.valid                        = host_sq_valid;
-    assign host_sq_ready                        = host_sq.ready;
-    assign host_sq.data                         = host_sq_data;
-
-    // Bypass descriptors
-    metaIntf #(.STYPE(req_t)) bpss_rd_req ();
-    metaIntf #(.STYPE(req_t)) bpss_wr_req ();
-    metaIntf #(.STYPE(req_t)) bpss_rd_req_int ();
-    metaIntf #(.STYPE(req_t)) bpss_wr_req_int ();
-    
-    assign bpss_rd_sq_valid                     = bpss_rd_req.valid;
-    assign bpss_rd_req.ready                    = bpss_rd_sq_ready; 
-    assign bpss_rd_sq_data                      = bpss_rd_req.data;
-
-    assign bpss_wr_sq_valid                     = bpss_wr_req.valid;
-    assign bpss_wr_req.ready                    = bpss_wr_sq_ready; 
-    assign bpss_wr_sq_data                      = bpss_wr_req.data; 
 
     metaIntf #(.STYPE(ack_t)) bpss_rd_cq ();
     metaIntf #(.STYPE(ack_t)) bpss_wr_cq ();
@@ -318,23 +299,23 @@ module design_user_wrapper_{{ c_reg }} (
 
 {% endif %}
 {% if cnfg.en_strm %}
-    AXI4S axis_host_sink ();
-    AXI4S axis_host_sink_int ();
 
-    assign axis_host_sink.tvalid                = axis_host_sink_tvalid;
-    assign axis_host_sink.tdata                 = axis_host_sink_tdata;
-    assign axis_host_sink.tkeep                 = axis_host_sink_tkeep;
-    assign axis_host_sink.tlast                 = axis_host_sink_tlast;
-    assign axis_host_sink_tready                = axis_host_sink.tready;
+    AXI4SR axis_host_send ();
+    AXI4SR axis_host_recv ();
 
-    AXI4S axis_host_src ();
-    AXI4S axis_host_src_int ();
+    assign axis_host_recv.tvalid                = axis_host_sink_tvalid;
+    assign axis_host_recv.tdata                 = axis_host_sink_tdata;
+    assign axis_host_recv.tkeep                 = axis_host_sink_tkeep;
+    assign axis_host_recv.tlast                 = axis_host_sink_tlast;
+    assign axis_host_recv.tid                   = axis_host_sink_tid;
+    assign axis_host_sink_tready                = axis_host_recv.tready;
 
-    assign axis_host_src_tvalid                 = axis_host_src.tvalid;
-    assign axis_host_src_tdata                  = axis_host_src.tdata;
-    assign axis_host_src_tkeep                  = axis_host_src.tkeep;
-    assign axis_host_src_tlast                  = axis_host_src.tlast;
-    assign axis_host_src.tready                 = axis_host_src_tready;
+    assign axis_host_src_tvalid                 = axis_host_send.tvalid;
+    assign axis_host_src_tdata                  = axis_host_send.tdata;
+    assign axis_host_src_tkeep                  = axis_host_send.tkeep;
+    assign axis_host_src_tlast                  = axis_host_send.tlast;
+    assign axis_host_src_tid                    = axis_host_send.tid;
+    assign axis_host_send.tready                = axis_host_src_tready;
 {% endif %}
 
 {% if cnfg.en_mem %}
@@ -484,15 +465,6 @@ module design_user_wrapper_{{ c_reg }} (
     // Notify
     `META_ASSIGN(notify_int, notify)
 
-    // Host request
-    `META_ASSIGN(host_sq, host_sq_int)
-
-    // Bypass
-    `META_ASSIGN(bpss_rd_req_int, bpss_rd_req)
-    `META_ASSIGN(bpss_wr_req_int, bpss_wr_req)
-    `META_ASSIGN(bpss_rd_cq, bpss_rd_cq_int)
-    `META_ASSIGN(bpss_wr_cq, bpss_wr_cq_int)
-
 {% if cnfg.en_rdma %}
     // RDMA desc
     `META_ASSIGN(rdma_sq_int, rdma_sq)
@@ -507,12 +479,7 @@ module design_user_wrapper_{{ c_reg }} (
     `META_ASSIGN(tcp_rq, tcp_rq_int)
 
 {% endif %} 
-{% if cnfg.en_strm %}
-    // AXIS host
-    `AXIS_ASSIGN(axis_host_sink, axis_host_sink_int)
-    `AXIS_ASSIGN(axis_host_src_int, axis_host_src)
 
-{% endif %}
 {% if cnfg.en_mem %}
     // AXIS card
 {% for i in range(0, cnfg.n_card_axi) %} 
@@ -544,13 +511,13 @@ module design_user_wrapper_{{ c_reg }} (
     metaIntf #(.STYPE(req_t)) user_sq_rd_int ();
     metaIntf #(.STYPE(req_t)) user_sq_wr_int ();
 
-    metaIntf #(.STYPE(req_t)) host_local_sq_rd ();
-    metaIntf #(.STYPE(req_t)) host_local_sq_wr ();
-    metaIntf #(.STYPE(req_t)) user_local_sq_rd ();
-    metaIntf #(.STYPE(req_t)) user_local_sq_wr ();
+    assign user_rd_sq_valid                     = user_sq_rd_int.valid;
+    assign user_sq_rd_int.ready                 = user_rd_sq_ready; 
+    assign user_rd_sq_data                      = user_sq_rd_int.data;
 
-    metaIntf #(.STYPE(req_t)) local_sq_rd ();
-    metaIntf #(.STYPE(req_t)) local_sq_wr ();
+    assign user_wr_sq_valid                     = user_sq_wr_int.valid;
+    assign user_sq_wr_int.ready                 = user_wr_sq_ready; 
+    assign user_wr_sq_data                      = user_sq_wr_int.data; 
 
 {% if cnfg.en_net %}
     metaIntf #(.STYPE(dreq_t)) host_remote_sq_rd ();
@@ -563,411 +530,11 @@ module design_user_wrapper_{{ c_reg }} (
 
 {% endif %}
 
-    // Host request mux
-    host_req_mux inst_host_mux (
-        .host_sq(host_sq_int),
-        .host_local_rd(host_local_sq_rd),
-        .host_local_wr(host_local_sq_wr),
-{% if cnfg.en_net %}
-        .host_remote_rd(host_remote_sq_rd),
-        .host_remote_wr(host_remote_sq_wr),
-{% endif %}
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-    // User request mux
-    user_req_mux #(
-        .ID_REG({{ c_reg }})
-    ) inst_user_mux (
-        .user_sq_rd(user_sq_rd_int),
-        .user_sq_wr(user_sq_wr_int),
-        .user_local_rd(user_local_sq_rd),
-        .user_local_wr(user_local_sq_wr),
-{% if cnfg.en_net %}
-        .user_remote_rd(user_remote_sq_rd),
-        .user_remote_wr(user_remote_sq_wr),
-{% endif %}
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-    // Host user arbiters
-    req_arb_2_1 inst_arb_local_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req_0(user_local_sq_rd),
-        .s_req_1(host_local_sq_rd),
-        .m_req(local_sq_rd)
-    );
-
-    req_arb_2_1 inst_arb_local_wr (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req_0(user_local_sq_wr),
-        .s_req_1(host_local_sq_wr),
-        .m_req(local_sq_wr)
-    );
-
-{% if cnfg.en_net %}
-    dreq_arb_2_1 inst_arb_remote_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req_0(user_remote_sq_rd),
-        .s_req_1(host_remote_sq_rd),
-        .m_req(remote_sq_rd)
-    );
-
-    dreq_arb_2_1 inst_arb_remote_wr (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req_0(user_remote_sq_wr),
-        .s_req_1(host_remote_sq_wr),
-        .m_req(remote_sq_wr)
-    );
-{% endif %}
-
-    //
-    // Local credits
-    // 
-    metaIntf #(.STYPE(req_t)) local_sq_rd_host ();
-    metaIntf #(.STYPE(req_t)) local_sq_rd_card ();
-    metaIntf #(.STYPE(req_t)) local_sq_wr_host ();
-    metaIntf #(.STYPE(req_t)) local_sq_wr_card ();
-
-    metaIntf #(.STYPE(req_t)) local_cred_rd_host ();
-    metaIntf #(.STYPE(req_t)) local_cred_rd_card ();
-    metaIntf #(.STYPE(req_t)) local_cred_wr_host ();
-    metaIntf #(.STYPE(req_t)) local_cred_wr_card ();
-
     AXI4SR axis_host_send_int [N_STRM_AXI] ();
     AXI4SR axis_host_recv_int [N_STRM_AXI] ();
     AXI4SR axis_card_send_int [N_CARD_AXI] ();
     AXI4SR axis_card_recv_int [N_CARD_AXI] (); 
-    
-{% if cnfg.en_strm and cnfg.en_mem %}
-    req_mux_stream_1_2 inst_stream_mux_rd (
-        .s_req(local_sq_rd),
-        .m_req_0(local_sq_rd_host),
-        .m_req_1(local_sq_rd_card),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
 
-    req_mux_stream_1_2 inst_stream_mux_wr (
-        .s_req(local_sq_wr),
-        .m_req_0(local_sq_wr_host),
-        .m_req_1(local_sq_wr_card),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-    local_credits_host_rd #(
-        .N_DESTS(N_STRM_AXI)
-    ) inst_local_credits_host_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(local_sq_rd_host),
-        .m_req(local_cred_rd_host),
-        .s_axis(axis_host_sink_int),
-        .m_axis(axis_host_recv_int)
-    );
-
-    local_credits_host_wr #(
-        .N_DESTS(N_STRM_AXI)
-    ) inst_local_credits_host_wr (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(local_sq_wr_host),
-        .m_req(local_cred_wr_host),
-        .s_axis(axis_host_send_int),
-        .m_axis(axis_host_src_int)
-    );
-
-    local_credits_card_rd #(
-        .N_DESTS(N_CARD_AXI)
-    ) inst_local_credits_card_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(local_sq_rd_card),
-        .m_req(local_cred_rd_card),
-        .s_axis(axis_card_sink_int),
-        .m_axis(axis_card_recv_int)
-    );
-
-    local_credits_card_wr #(
-        .N_DESTS(N_CARD_AXI)  
-    ) inst_local_credits_card_wr (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(local_sq_wr_card),
-        .m_req(local_cred_wr_card),
-        .s_axis(axis_card_send_int),
-        .m_axis(axis_card_src_int)
-    );
-
-    req_arb_2_1 inst_stream_arb_rd (
-        .s_req_0(local_cred_rd_host),
-        .s_req_1(local_cred_rd_card),
-        .m_req(bpss_rd_req_int),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-    req_arb_2_1 inst_stream_arb_wr (
-        .s_req_0(local_cred_wr_host),
-        .s_req_1(local_cred_wr_card),
-        .m_req(bpss_wr_req_int),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-{% elif cnfg.en_strm %}
-    `META_ASSIGN(local_sq_rd, local_sq_rd_host)
-    `META_ASSIGN(local_sq_wr, local_sq_wr_host)
-
-    local_credits_host_rd #(
-        .N_DESTS(N_STRM_AXI)
-    ) inst_local_credits_host_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(local_sq_rd_host),
-        .m_req(local_cred_rd_host),
-        .s_axis(axis_host_sink_int),
-        .m_axis(axis_host_recv_int)
-    );
-
-    local_credits_host_wr #(
-        .N_DESTS(N_STRM_AXI)
-    ) inst_local_credits_host_wr (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(local_sq_wr_host),
-        .m_req(local_cred_wr_host),
-        .s_axis(axis_host_send_int),
-        .m_axis(axis_host_src_int)
-    );
-
-    `META_ASSIGN(local_cred_rd_host, bpss_rd_req_int)
-    `META_ASSIGN(local_cred_wr_host, bpss_wr_req_int)
-
-{% elif cnfg.en_mem %}
-    `META_ASSIGN(local_sq_rd, local_sq_rd_card)
-    `META_ASSIGN(local_sq_wr, local_sq_wr_card)
-
-    local_credits_card_rd #(
-        .N_DESTS(N_CARD_AXI)
-    ) inst_local_credits_card_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(local_sq_rd_card),
-        .m_req(local_cred_rd_card),
-        .s_axis(axis_card_sink_int),
-        .m_axis(axis_card_recv_int)
-    );
-
-    local_credits_card_wr #(
-        .N_DESTS(N_CARD_AXI)
-    ) inst_local_credits_card_wr (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(local_sq_wr_card),
-        .m_req(local_cred_wr_card),
-        .s_axis(axis_card_send_int),
-        .m_axis(axis_card_src_int)
-    );
-
-    `META_ASSIGN(local_cred_rd_card, bpss_rd_req_int)
-    `META_ASSIGN(local_cred_wr_card, bpss_wr_req_int)
-
-{% endif %}
-
-    //
-    // Remote credits
-    // 
-
-{% if cnfg.en_net %}
-    metaIntf #(.STYPE(req_t)) user_rq_wr_int ();
-
-{% if cnfg.en_rdma %}
-    metaIntf #(.STYPE(req_t)) user_rq_rd_int ();
-
-    metaIntf #(.STYPE(dreq_t)) remote_sq_wr_rdma ();
-    metaIntf #(.STYPE(dreq_t)) remote_cred_rd_rdma ();
-    metaIntf #(.STYPE(dreq_t)) remote_cred_wr_rdma ();
-
-    metaIntf #(.STYPE(req_t)) rdma_rq_wr_cred_int ();
-
-    AXI4SR axis_rdma_recv_int [N_RDMA_AXI] ();
-    AXI4SR axis_rdma_resp_int [N_RDMA_AXI] ();
-    AXI4SR axis_rdma_send_req_int [N_RDMA_AXI] ();
-    AXI4SR axis_rdma_send_rsp_int [N_RDMA_AXI] ();
-
-{% endif %}
-{% if cnfg.en_tcp %}
-    metaIntf #(.STYPE(req_t)) remote_sq_wr_tcp ();
-    metaIntf #(.STYPE(req_t)) remote_sq_cmd_tcp ();
-    metaIntf #(.STYPE(req_t)) remote_cred_wr_tcp ();
-
-    metaIntf #(.STYPE(req_t)) tcp_rq_wr_int ();
-    
-{% endif %}
-{% if cnfg.en_tcp and cnfg.en_rdma %}
-    dreq_mux_net_1_2 inst_dreq_mux (
-        .s_req(remote_sq_wr),
-        .m_req_0(remote_sq_wr_rdma),
-        .m_req_2(remote_sq_wr_tcp),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-    remote_credits_rd #(
-        .N_DESTS(N_RDMA_AXI)  
-    ) inst_remote_credits_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(remote_sq_rd),
-        .m_req(remote_cred_rd_rdma),
-        .s_rq(rdma_rq_wr_int),
-        .m_rq(rdma_rq_wr_cred_int),
-        .s_axis(axis_rdma_sink_int),
-        .m_axis_recv(axis_rdma_recv_int),
-        .m_axis_resp(axis_rdma_resp_int)
-    );
-
-    remote_credits_wr_rdma #(
-        .N_DESTS(N_RDMA_AXI)  
-    ) inst_remote_credits_wr_rdma (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(remote_sq_wr_rdma),
-        .m_req(remote_cred_wr_rdma),
-        .s_axis(axis_rdma_send_req_int),
-        .m_axis(axis_rdma_src_req_int)
-    );
-
-    remote_resp_rd #(
-        .N_DESTS(N_RDMA_AXI)
-    ) inst_remote_resp_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_rq(rdma_rq_rd),
-        .m_rq(user_rq_rd_int),
-        .s_axis(axis_rdma_send_rsp_int),
-        .m_axis(axis_rdma_src_rsp_int)
-    );
-
-    dreq_arb_2_1 inst_dreq_arb_rdma (
-        .s_req_0(remote_cred_rd_rdma),
-        .s_req_1(remote_cred_wr_rdma),
-        .m_req(rdma_sq_int),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-    remote_credits_wr_tcp #(
-        .N_DESTS(N_TCP_AXI)  
-    ) inst_remote_credits_wr_tcp (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(remote_sq_wr_tcp),
-        .m_req(tcp_sq_int),
-        .s_axis(axis_tcp_send_int),
-        .m_axis(axis_tcp_src_int)
-    );
-
-    axis_mux_user_tcp inst_axis_tcp_mux (
-        .s_rq(tcp_rq_int),
-        .m_rq(tcp_rq_wr_int)
-        .s_axis(axis_tcp_sink_int),
-        .m_axis(axis_tcp_recv_int),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-    req_arb_2_1 inst_rq_arbiter (
-        .s_req_0(rdma_rq_wr_cred_int),
-        .s_req_1(tcp_rq_wr_int),
-        .m_req(user_rq_wr_int),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-{% elif cnfg.en_rdma %}
-    `META_ASSIGN(remote_sq_wr, remote_sq_wr_rdma)
-
-    remote_credits_rd #(
-        .N_DESTS(N_RDMA_AXI)  
-    ) inst_remote_credits_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(remote_sq_rd),
-        .m_req(remote_cred_rd_rdma),
-        .s_rq(rdma_rq_wr_int),
-        .m_rq(rdma_rq_wr_cred_int),
-        .s_axis(axis_rdma_sink_int),
-        .m_axis_recv(axis_rdma_recv_int),
-        .m_axis_resp(axis_rdma_resp_int)
-    );
-    `META_ASSIGN(rdma_rq_wr_cred_int, user_rq_wr_int)
-
-    remote_credits_wr_rdma #(
-        .N_DESTS(N_RDMA_AXI)  
-    ) inst_remote_credits_wr_rdma (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(remote_sq_wr_rdma),
-        .m_req(remote_cred_wr_rdma),
-        .s_axis(axis_rdma_send_req_int),
-        .m_axis(axis_rdma_src_req_int)
-    );
-
-    remote_resp_rd #(
-        .N_DESTS(N_RDMA_AXI)
-    ) inst_remote_resp_rd (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_rq(rdma_rq_rd),
-        .m_rq(user_rq_rd_int),
-        .s_axis(axis_rdma_send_rsp_int),
-        .m_axis(axis_rdma_src_rsp_int)
-    );
-
-    dreq_arb_2_1 inst_dreq_arb_rdma (
-        .s_req_0(remote_cred_rd_rdma),
-        .s_req_1(remote_cred_wr_rdma),
-        .m_req(rdma_sq_int),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-
-{% elif cnfg.en_tcp %}
-    `META_ASSIGN(remote_sq_wr, remote_sq_wr_tcp)
-    assign remote_sq_rd.ready = 1'b1;
-
-    remote_credits_wr_tcp #(
-        .N_DESTS(N_TCP_AXI)  
-    ) inst_remote_credits_wr_tcp (
-        .aclk(aclk),
-        .aresetn(aresetn),
-        .s_req(remote_sq_wr_tcp),
-        .m_req(tcp_sq_int),
-        .s_axis(axis_tcp_send_int),
-        .m_axis(axis_tcp_src_int)
-    );
-
-    axis_mux_user_tcp inst_axis_tcp_mux (
-        .s_rq(tcp_rq_int),
-        .m_rq(tcp_rq_wr_int)
-        .s_axis(axis_tcp_sink_int),
-        .m_axis(axis_tcp_recv_int),
-        .aclk(aclk),
-        .aresetn(aresetn)
-    );
-    `META_ASSIGN(tcp_rq_wr_int, user_rq_wr_int)
-
-{% endif %}
-{% endif %}
 
     //
     // CQ
@@ -992,6 +559,31 @@ module design_user_wrapper_{{ c_reg }} (
     `META_ASSIGN(bpss_wr_cq, user_cq_wr_int)
 
 {% endif %}
+
+
+    user_wrapper_mux_rd  #(
+        .N_DESTS(N_STRM_AXI)
+    ) inst_mux_rd (
+        .aclk(aclk),
+        .aresetn(aresetn),
+        .port_in(port_in),
+
+        .s_axis(axis_host_recv),
+        .m_axis(axis_host_recv_int)
+    );
+
+    user_wrapper_mux_wr  #(
+        .N_DESTS(N_STRM_AXI)
+    ) inst_mux_wr (
+        .aclk(aclk),
+        .aresetn(aresetn),
+        .port_out(port_out),
+
+        .s_axis(axis_host_send_int),
+        .m_axis(axis_host_send)
+    );
+
+
     //
 	// USER LOGIC
     //

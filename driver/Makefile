@@ -1,7 +1,8 @@
 obj-m := coyote_drv.o
 coyote_drv-objs:= fpga_drv.o fpga_fops.o fpga_pops.o fpga_hw.o fpga_sysfs.o fpga_uisr.o fpga_dev.o fpga_gup.o fpga_hmm.o fpga_mmu.o fpga_pr.o pci/pci_dev.o eci/eci_dev.o
 
-KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+KERNELDIR ?= /nix/store/gw650sbpsc0pv3qkj0g2jl1xj4xpq149-linux-6.9-dev/lib/modules/$(shell uname -r)/build
+#KERNELDIR ?= /lib/modules/$(shell uname -r)/build
 PWD := $(shell pwd)
 
 ROOT := $(dir $(M))

@@ -72,6 +72,13 @@ always_comb rq_wr.tie_off_s();
 
 // By default just a loopback ...
 `ifdef EN_STRM
+    // Simple tuple adder
+    // adder inst_adder (
+    //     .aclk(aclk),
+    //     .aresetn(aresetn),
+    //     .axis_sink(axis_host_recv[0]),
+    //     .axis_src(axis_host_send[0])
+    // );
     for(genvar i = 0; i < N_STRM_AXI; i++) begin
         `AXISR_ASSIGN(axis_host_recv[i], axis_host_send[i])
     end

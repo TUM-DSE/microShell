@@ -1,0 +1,6 @@
+app_name,variant,files,lines,blanks,comments,code,complexity,timestamp
+audio_processing,composed,1,254,48,16,190,27,2026-04-30 15:58:20
+digital_signature,composed,1,247,41,28,178,25,2026-04-30 15:58:20
+secure_storage,composed,1,302,53,31,218,44,2026-04-30 15:58:21
+signed_compression,composed,1,328,52,40,236,45,2026-04-30 15:58:21
+speech_recognition,composed,1,244,43,24,177,26,2026-04-30 15:58:21

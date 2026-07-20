@@ -1,0 +1,100 @@
+May 06 12:28:12 clara kernel: fpga_ioctl():reading config 0x1000100000017
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Connection thread created
+May 06 12:28:12 clara kernel: fpga_mmap():fpga dev. 0, memory mapping config AVX region at 400c1000000 of size 40000
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Executing perf_local task, params: dMem 598dd5639600, tuples 1024
+May 06 12:28:12 clara kernel: fpga_mmap():fpga dev. 0, memory mapping user ctrl region at 400c0120000 of size 10000
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Adding new task with ctid 0, oid 1, priority 1
+May 06 12:28:12 clara kernel: x86/PAT: reserve_ram_pages_type failed [mem 0x3a638af000-0x3a638affff], track 0x2, req 0x2
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Request Queue size: 1
+May 06 12:28:12 clara kernel: fpga_mmap():fpga dev. 0, memory mapping writeback regions at 3a638af000 of size 400
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: 1 tasks currently scheduled, curr_oid=1
+May 06 12:28:12 clara kernel: mmu_handler_gup():hpid found = 110762
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Task 0 (1) has priority 1, wait time 1 and bonus 8
+May 06 12:28:12 clara kernel: mmu_handler_gup():map not present
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Task 0 (1) scheduled next
+May 06 12:28:12 clara kernel: tlb_get_user_pages():allocated 8 bytes for page pointer array for 1 pages @0x000000001e57503f
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Checking reconfiguration: 1 ->? 1
+May 06 12:28:12 clara kernel: tlb_get_user_pages():pages=0x000000001e57503f
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Performing reconfiguration: 1 -> 1
+May 06 12:28:12 clara kernel: tlb_get_user_pages():get_user_pages_remote(598dd5639, n_pages = 1, page start = 3999866, hugepages = 0)
+May 06 12:28:12 clara kernel: tlb_create_map():creating new TLB entry, vaddr_fa 598dd5639, paddr 3999866000, strm 1, cpid 0, hpid 110762, hugepage 0
+May 06 12:28:12 clara kernel: fpga_ioctl():user mapping vFPGA 0 handled
+May 06 12:28:12 clara kernel: pr_ioctl():trying to obtain reconfig lock, pid 9886
+May 06 12:28:12 clara kernel: reconfigure_start():bitstream full 20 x 2 MB, partial 178656 B
+May 06 12:28:12 clara kernel: pr_isr():(irq=323) ISR entry
+May 06 12:28:12 clara kernel: pr_isr():(irq=323) reconfig completed
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Reconfiguration done in 57727.000000 µs
+May 06 12:28:12 clara kernel: app reconfiguration time 57 ms
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Task completed, operator loaded, , ctid 0, oid 1, priority 1
+May 06 12:28:12 clara kernel: pr_ioctl():releasing reconfig lock, coupling the design
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Task HLL executed, time 0.000000
+May 06 12:28:12 clara kernel: tlb_create_unmap():unmapping TLB entry, vaddr_fa 598dd5639, hpid 110762, hugepage 0
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Client: 5, opcode 0, tid: 0
+May 06 12:28:12 clara kernel: fpga_isr():(irq=308) ISR entry
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Received close connection request
+May 06 12:28:12 clara kernel: fpga_isr():(irq=308) invalidation completed, vFPGA 0
+May 06 12:28:12 clara coyote-daemon-vfid-0-streaming[9885]: Connection 5 closing ...
+May 06 12:28:12 clara kernel: fpga_ioctl():user unmapping vFPGA 0 handled
+May 06 12:28:12 clara kernel: unregistration succeeded, cpid 0, hpid 110762, spid 9889
+May 06 12:28:12 clara kernel: fpga device 0 released, spid 9889, ref cnt 0
+May 06 12:28:12 clara sudo[110759]: pam_unix(sudo:session): session closed for user root
+May 06 12:28:15 clara sudo[110771]: chenjiyang : TTY=pts/0 ; PWD=/home/chenjiyang/microShell/build_perf_client_sw ; USER=root ; COMMAND=./bin/test -1 true
+May 06 12:28:15 clara sudo[110771]: pam_unix(sudo:session): session opened for user root(uid=0) by chenjiyang(uid=1019)
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Connection accepted local, connfd: 2
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Registered pid: 110774
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Function id: 1
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Client: 2, opcode 1, tid: 0
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Connection thread created
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Executing perf_local task, params: dMem 63ee81f3c600, tuples 1024
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Adding new task with ctid 0, oid 1, priority 1
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Request Queue size: 1
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: 1 tasks currently scheduled, curr_oid=1
+May 06 12:28:15 clara kernel: fpga device 0 opened, spid 9885, ref cnt 0
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Task 0 (1) has priority 1, wait time 1 and bonus 8
+May 06 12:28:15 clara kernel: registration succeeded, cpid 0, hpid 110774, spid 9885
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Task 0 (1) scheduled next
+May 06 12:28:15 clara kernel: fpga_ioctl():reading config 0x1000100000017
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Checking reconfiguration: 1 ->? 1
+May 06 12:28:15 clara kernel: fpga_mmap():fpga dev. 0, memory mapping config AVX region at 400c1000000 of size 40000
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Performing reconfiguration: 1 -> 1
+May 06 12:28:15 clara kernel: fpga_mmap():fpga dev. 0, memory mapping user ctrl region at 400c0120000 of size 10000
+May 06 12:28:15 clara kernel: x86/PAT: reserve_ram_pages_type failed [mem 0x3a638af000-0x3a638affff], track 0x2, req 0x2
+May 06 12:28:15 clara kernel: fpga_mmap():fpga dev. 0, memory mapping writeback regions at 3a638af000 of size 400
+May 06 12:28:15 clara kernel: mmu_handler_gup():hpid found = 110774
+May 06 12:28:15 clara kernel: mmu_handler_gup():map not present
+May 06 12:28:15 clara kernel: tlb_get_user_pages():allocated 8 bytes for page pointer array for 1 pages @0x0000000089bf631c
+May 06 12:28:15 clara kernel: tlb_get_user_pages():pages=0x0000000089bf631c
+May 06 12:28:15 clara kernel: tlb_get_user_pages():get_user_pages_remote(63ee81f3c, n_pages = 1, page start = 3ad86d6, hugepages = 0)
+May 06 12:28:15 clara kernel: tlb_create_map():creating new TLB entry, vaddr_fa 63ee81f3c, paddr 3ad86d6000, strm 1, cpid 0, hpid 110774, hugepage 0
+May 06 12:28:15 clara kernel: fpga_ioctl():user mapping vFPGA 0 handled
+May 06 12:28:15 clara kernel: pr_ioctl():trying to obtain reconfig lock, pid 9886
+May 06 12:28:15 clara kernel: reconfigure_start():bitstream full 20 x 2 MB, partial 178656 B
+May 06 12:28:15 clara kernel: pr_isr():(irq=323) ISR entry
+May 06 12:28:15 clara kernel: pr_isr():(irq=323) reconfig completed
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Reconfiguration done in 57716.000000 µs
+May 06 12:28:15 clara kernel: app reconfiguration time 57 ms
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Task completed, operator loaded, , ctid 0, oid 1, priority 1
+May 06 12:28:15 clara kernel: pr_ioctl():releasing reconfig lock, coupling the design
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Task HLL executed, time 0.000000
+May 06 12:28:15 clara kernel: tlb_create_unmap():unmapping TLB entry, vaddr_fa 63ee81f3c, hpid 110774, hugepage 0
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Client: 2, opcode 0, tid: 0
+May 06 12:28:15 clara kernel: fpga_isr():(irq=308) ISR entry
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Received close connection request
+May 06 12:28:15 clara kernel: fpga_isr():(irq=308) invalidation completed, vFPGA 0
+May 06 12:28:15 clara coyote-daemon-vfid-0-streaming[9885]: Connection 2 closing ...
+May 06 12:28:15 clara kernel: fpga_ioctl():user unmapping vFPGA 0 handled
+May 06 12:28:15 clara kernel: unregistration succeeded, cpid 0, hpid 110774, spid 9889
+May 06 12:28:15 clara kernel: fpga device 0 released, spid 9889, ref cnt 0
+May 06 12:28:15 clara sudo[110771]: pam_unix(sudo:session): session closed for user root
+May 06 12:28:20 clara promtail[3561]: level=warn ts=2026-05-06T12:28:20.568184612Z caller=client.go:419 component=client host=loki.r msg="error sending batch, will retry" status=500 tenant= error="server returned HTTP status 500 Internal Server Error (500): rpc error: code = Unknown desc = Ingester is shutting down"
+May 06 12:28:20 clara promtail[3561]: level=error ts=2026-05-06T12:28:20.568272262Z caller=client.go:430 component=client host=loki.r msg="final error sending batch" status=500 tenant= error="server returned HTTP status 500 Internal Server Error (500): rpc error: code = Unknown desc = Ingester is shutting down"
+May 06 12:28:21 clara promtail[3561]: level=warn ts=2026-05-06T12:28:21.662337387Z caller=client.go:419 component=client host=loki.r msg="error sending batch, will retry" status=500 tenant= error="server returned HTTP status 500 Internal Server Error (500): rpc error: code = Unknown desc = Ingester is shutting down"
+May 06 12:28:22 clara promtail[3561]: level=warn ts=2026-05-06T12:28:22.352185263Z caller=client.go:419 component=client host=loki.r msg="error sending batch, will retry" status=500 tenant= error="server returned HTTP status 500 Internal Server Error (500): rpc error: code = Unknown desc = Ingester is shutting down"
+May 06 12:28:23 clara promtail[3561]: level=warn ts=2026-05-06T12:28:23.430860584Z caller=client.go:419 component=client host=loki.r msg="error sending batch, will retry" status=500 tenant= error="server returned HTTP status 500 Internal Server Error (500): rpc error: code = Unknown desc = Ingester is shutting down"
+May 06 12:28:25 clara promtail[3561]: level=warn ts=2026-05-06T12:28:25.607436512Z caller=client.go:419 component=client host=loki.r msg="error sending batch, will retry" status=500 tenant= error="server returned HTTP status 500 Internal Server Error (500): rpc error: code = Unknown desc = Ingester is shutting down"
+May 06 12:28:28 clara tincd[3354]: Failed to verify SIG record from xavier (131.159.102.27 port 655)
+May 06 12:28:29 clara tincd[3354]: Failed to verify SIG record from xavier (2a09:80c0:102::27 port 655)
+May 06 12:28:31 clara promtail[3561]: level=warn ts=2026-05-06T12:28:31.003955444Z caller=client.go:419 component=client host=loki.r msg="error sending batch, will retry" status=500 tenant= error="server returned HTTP status 500 Internal Server Error (500): rpc error: code = Unknown desc = Ingester is shutting down"
+May 06 12:28:34 clara tincd[3354]: Failed to verify SIG record from xavier (131.159.102.27 port 655)
+May 06 12:28:34 clara tincd[3354]: Failed to verify SIG record from xavier (2a09:80c0:102::27 port 655)
+May 06 12:28:39 clara promtail[3561]: level=warn ts=2026-05-06T12:28:39.166968384Z caller=client.go:419 component=client host=loki.r msg="error sending batch, will retry" status=500 tenant= error="server returned HTTP status 500 Internal Server Error (500): rpc error: code = Unknown desc = Ingester is shutting down"

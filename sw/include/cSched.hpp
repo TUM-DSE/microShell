@@ -42,6 +42,9 @@
 using namespace std;
 using namespace boost::interprocess;
 
+// Define NEW_SCHEDULER to use the proposed scheduler in cSched.
+#define NEW_SCHEDULER
+
 namespace fpga {
 
 /* Struct 
@@ -51,8 +54,14 @@ struct cLoad {
     int32_t ctid;
     int32_t oid;
     uint32_t priority;
+#ifdef NEW_SCHEDULER
+    uint32_t wait_time;         // New metric for fairness
+    uint32_t same_oid_bonus;    // New metric to prioritize tasks with currently loaded oid
+
+#endif
 };
 
+#ifndef NEW_SCHEDULER
 /* Schedule reordering */
 class taskCmprSched {
 private:
@@ -70,7 +79,7 @@ public:
     }
 
     // Takes pointers to two cLoads as scheduling requests and decides which one has the higher priority 
-    bool operator()(const std::unique_ptr<cLoad>& req1, const std::unique_ptr<cLoad>& req2) {
+    const bool operator()(const std::unique_ptr<cLoad>& req1, const std::unique_ptr<cLoad>& req2) {
         // Comparison
         if(priority) {
             if(req1->priority < req2->priority) return true;
@@ -86,6 +95,7 @@ public:
         return false;
     }
 };
+#endif
 
 /**
  * @brief Coyote scheduler
@@ -119,8 +129,11 @@ protected:
     // Queue that stores pointers to load-objects. The order of the queue is calculated using the comparator-operator specified in taskCmprSched
     condition_variable cv_queue;
     mutex mtx_queue;
+#ifndef NEW_SCHEDULER
     priority_queue<std::unique_ptr<cLoad>, vector<std::unique_ptr<cLoad>>, taskCmprSched> request_queue;
-    
+#else
+    vector<std::unique_ptr<cLoad>> request_queue;
+#endif    
     /* Scheduling and completion */
     condition_variable cv_rcnfg;
     mutex mtx_rcnfg;
@@ -137,6 +150,9 @@ protected:
 	/* PR */
     // Function for FPGA-reconfiguration based on the operator ID 
 	void reconfigure(int32_t oid);
+    // Benchmark
+    uint32_t num_reconfigurations;
+    double time_reconfigurations;
 
     /* (Thread) Process requests */
     // Function for processing Requests 

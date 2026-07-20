@@ -50,6 +50,9 @@ void cService::myHandler(int signum) {
         // Unlink the socket 
         unlink(socket_name.c_str());
 
+        syslog(LOG_NOTICE, "Total Reconfigurations: %d", num_reconfigurations);
+        syslog(LOG_NOTICE, "Total time for reconfigurations: %f µs", time_reconfigurations);
+
         //kill(getpid(), SIGTERM);
         syslog(LOG_NOTICE, "Exiting");
         closelog();

@@ -28,6 +28,14 @@
 `ifndef LYNX_MACROS_SVH_
 `define LYNX_MACROS_SVH_
 
+// Simple endpoint register structure
+typedef struct packed {
+    logic [VADDR_BITS-1:0] vaddr_base;    // Base address
+    logic [VADDR_BITS-1:0] vaddr_bound;   // Bound address  
+    logic [1:0]           access_rights;  // [0] read, [1] write
+    logic                 valid;          // Valid bit
+} endpoint_reg_t;
+
 `define DMA_REQ_ASSIGN(s, m)            			\
 	assign m.req		= s.req;					\
 	assign s.rsp 		= m.rsp;					\

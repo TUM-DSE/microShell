@@ -62,6 +62,7 @@ logic host_C, host_N;
 logic actv_C, actv_N;
 logic [LEN_BITS-1:0] len_C, len_N;
 logic [VADDR_BITS-1:0] vaddr_C, vaddr_N;
+logic [OFFS_BITS-1:0] offs_C, offs_N;
 
 logic [LEN_BITS-1:0] plen_C, plen_N;
 logic [VADDR_BITS-1:0] pvaddr_C, pvaddr_N;
@@ -85,6 +86,7 @@ if (aresetn == 1'b0) begin
     actv_C <= 'X;
     len_C <= 'X;
     vaddr_C <= 'X;
+    offs_C <= 'X;
 
     plen_C <= 'X;
     pvaddr_C <= 'X;
@@ -106,6 +108,7 @@ else
     actv_C <= actv_N;
     len_C <= len_N;
     vaddr_C <= vaddr_N;
+    offs_C <= offs_N;
 
     plen_C <= plen_N;
     pvaddr_C <= pvaddr_N;
@@ -147,6 +150,7 @@ always_comb begin: DP
     actv_N = actv_C;
     len_N = len_C;
     vaddr_N = vaddr_C;
+    offs_N = offs_C;
 
     plen_N = plen_C;
     pvaddr_N = pvaddr_C;
@@ -168,11 +172,10 @@ always_comb begin: DP
     m_req.data.last = plast_C;
     m_req.data.actv = actv_C;
     m_req.data.host = host_C;
-    m_req.data.offs = 0;
+    m_req.data.offs = offs_C;
     m_req.data.vaddr = pvaddr_C;
     m_req.data.len = plen_C;
-    m_req.data.rsrvd = 0;
-
+    
     case(state_C)
         ST_IDLE: begin
             s_req.ready = 1'b1;
@@ -190,6 +193,7 @@ always_comb begin: DP
                 actv_N = s_req.data.actv;
                 len_N = s_req.data.len;
                 vaddr_N = s_req.data.vaddr;
+                offs_N = s_req.data.offs;
             end
         end
 
